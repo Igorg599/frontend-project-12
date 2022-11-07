@@ -42,4 +42,4 @@ rules:
   react/jsx-filename-extension: [1, { "extensions": [".js", ".jsx"] }]
   semi: 0
   quotes: 0
-  comma-dangle: ["error", { "functions": "ignore" }]
+  comma-dangle: 0
