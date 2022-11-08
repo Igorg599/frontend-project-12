@@ -1,21 +1,19 @@
 import { Formik } from "formik"
 import { TextField, Button } from "@material-ui/core"
+import * as Yup from "yup"
+
+const SignupSchema = Yup.object().shape({
+  email: Yup.string().email("Invalid email").required("Required"),
+  password: Yup.string()
+    .required("Password is required")
+    .min(6, "Password is too short - should be 6 chars minimum"),
+})
 
 const Login = () => (
   <div>
     <Formik
       initialValues={{ email: "", password: "" }}
-      validate={(values) => {
-        const errors = {}
-        if (!values.email) {
-          errors.email = "Required"
-        } else if (
-          !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
-        ) {
-          errors.email = "Invalid email address"
-        }
-        return errors
-      }}
+      validationSchema={SignupSchema}
       onSubmit={(values, { setSubmitting }) => {
         setTimeout(() => {
           console.log(JSON.stringify(values, null, 2))
