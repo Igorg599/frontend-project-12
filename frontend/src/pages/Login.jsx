@@ -3,22 +3,20 @@ import { TextField, Button } from "@material-ui/core"
 import * as Yup from "yup"
 
 const SignupSchema = Yup.object().shape({
-  email: Yup.string().email("Invalid email").required("Required"),
+  login: Yup.string().min(4, "Слишком короткий логин").required("Обязательное поле"),
   password: Yup.string()
-    .required("Password is required")
-    .min(6, "Password is too short - should be 6 chars minimum"),
+    .required("Пароль обязателен для ввода")
+    .min(4, "Слишком короткий пароль"),
 })
 
 const Login = () => (
   <div>
     <Formik
-      initialValues={{ email: "", password: "" }}
+      initialValues={{ login: "", password: "" }}
       validationSchema={SignupSchema}
       onSubmit={(values, { setSubmitting }) => {
-        setTimeout(() => {
-          console.log(JSON.stringify(values, null, 2))
-          setSubmitting(false)
-        }, 400)
+        console.log(JSON.stringify(values, null, 2))
+        setSubmitting(false)
       }}
     >
       {({
@@ -32,16 +30,16 @@ const Login = () => (
       }) => (
         <form onSubmit={handleSubmit} className="login-form">
           <TextField
-            type="email"
-            name="email"
+            type="text"
+            name="login"
             onChange={handleChange}
             onBlur={handleBlur}
-            value={values.email}
+            value={values.login}
             className="login-input"
             variant="outlined"
-            label="email"
+            label="login"
           />
-          {errors.email && touched.email && errors.email}
+          {errors.login && touched.login && errors.login}
           <TextField
             type="password"
             name="password"
