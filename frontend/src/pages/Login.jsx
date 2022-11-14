@@ -6,6 +6,7 @@ import { TextField, Button, Box } from "@material-ui/core"
 import * as Yup from "yup"
 import routes from '../utils/routes'
 import useAuth from '../hooks/useAuth'
+import useLocalStorage from '../hooks/useLokalStorage'
 
 const SignupSchema = Yup.object().shape({
   username: Yup.string().min(4, "Слишком короткий логин").required("Обязательное поле"),
@@ -19,6 +20,7 @@ const Login = () => {
   const navigate = useNavigate()
   const location = useLocation()
   const [authFailed, setAuthFailed] = useState(false)
+  const [, setValue] = useLocalStorage('userId')
 
   return (
     <div>
@@ -30,10 +32,12 @@ const Login = () => {
 
           try {
             const res = await axios.post(routes.loginPath(), values)
-            localStorage.setItem('userId', JSON.stringify(res.data))
-            auth.logIn()
-            const { from } = location.state || { from: { pathname: '/' } }
-            navigate(from)
+            setValue(res.data.token)
+            setTimeout(() => {
+              auth.logIn()
+              const { from } = location.state || { from: { pathname: '/' } }
+              navigate(from)
+            })
           } catch (err) {
             if (err.isAxiosError && err.response.status === 401) {
               setAuthFailed(true);
