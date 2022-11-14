@@ -1,14 +1,27 @@
-import { Route, Routes, BrowserRouter } from "react-router-dom"
+import {
+  Route, Routes, BrowserRouter, Outlet, Navigate
+} from "react-router-dom"
+import useAuth from './hooks/auth'
 import { Home, Login, NotFound } from "./pages"
+import { AuthProvider } from './context/authContext'
+
+const UseOutlet = () => {
+  const auth = useAuth();
+  return auth.loggedIn ? <Outlet /> : <Navigate to="/login" />
+}
 
 const App = () => (
-  <BrowserRouter>
-    <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="login" element={<Login />} />
-      <Route path="*" element={<NotFound />} />
-    </Routes>
-  </BrowserRouter>
+  <AuthProvider>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<UseOutlet />}>
+          <Route path="" element={<Home />} />
+        </Route>
+        <Route path="/login" element={<Login />} />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </BrowserRouter>
+  </AuthProvider>
 )
 
 export default App

@@ -1,10 +1,11 @@
 import { Formik } from "formik"
 import { useState } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 import axios from 'axios'
-import { TextField, Button } from "@material-ui/core"
+import { TextField, Button, Box } from "@material-ui/core"
 import * as Yup from "yup"
 import routes from '../utils/routes'
+import useAuth from '../hooks/auth'
 
 const SignupSchema = Yup.object().shape({
   username: Yup.string().min(4, "Слишком короткий логин").required("Обязательное поле"),
@@ -14,8 +15,9 @@ const SignupSchema = Yup.object().shape({
 })
 
 const Login = () => {
-  const location = useLocation()
+  const auth = useAuth()
   const navigate = useNavigate()
+  const location = useLocation()
   const [authFailed, setAuthFailed] = useState(false)
 
   return (
@@ -29,6 +31,7 @@ const Login = () => {
           try {
             const res = await axios.post(routes.loginPath(), values)
             localStorage.setItem('userId', JSON.stringify(res.data))
+            auth.logIn()
             const { from } = location.state || { from: { pathname: '/' } }
             navigate(from)
           } catch (err) {
@@ -55,13 +58,13 @@ const Login = () => {
               name="username"
               onChange={handleChange}
               onBlur={handleBlur}
-              value={values.login}
+              value={values.username}
               className="login-input"
               variant="outlined"
               label="username"
               error={authFailed}
             />
-            {errors.login && touched.login && errors.login}
+            {errors.username && touched.username && errors.username}
             <TextField
               type="password"
               name="password"
@@ -74,6 +77,7 @@ const Login = () => {
               error={authFailed}
             />
             {errors.password && touched.password && errors.password}
+            {authFailed && <Box style={{ color: 'red', marginTop: 10 }}>Неверный логин или пароль</Box>}
             <Button
               type="submit"
               disabled={isSubmitting}
