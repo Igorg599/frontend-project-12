@@ -8,9 +8,9 @@ import routes from '../utils/routes'
 
 const Home = () => {
   const dispatch = useDispatch()
-  const { channels } = useSelector(appChannelsSelector)
+  const { channels, messages } = useSelector(appChannelsSelector)
   const [token] = useLocalStorage('userId')
-  console.log(channels)
+  console.log(channels, messages)
 
   useEffect(() => {
     axios.get(routes.getData(), { headers: { Authorization: `Bearer ${token}` } })

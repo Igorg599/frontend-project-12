@@ -6,6 +6,7 @@ import useAuth from './hooks/useAuth'
 import { Home, Login, NotFound } from "./pages"
 import store from './store'
 import { AuthProvider } from './context/authContext'
+import SideBar from './components/SideBar'
 
 const UseOutlet = () => {
   const auth = useAuth()
@@ -15,6 +16,7 @@ const UseOutlet = () => {
 const App = () => (
   <Provider store={store}>
     <AuthProvider>
+      <SideBar />
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<UseOutlet />}>
