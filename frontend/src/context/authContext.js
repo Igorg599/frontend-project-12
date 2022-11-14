@@ -1,11 +1,13 @@
 import {
   createContext, useCallback, useMemo, useState
 } from 'react'
+import useLocalStorage from '../hooks/useLokalStorage'
 
 const AuthContext = createContext({})
 
 export const AuthProvider = ({ children }) => {
-  const [loggedIn, setLoggedIn] = useState(!!localStorage.getItem('userId'))
+  const [storageUserValue] = useLocalStorage('userId')
+  const [loggedIn, setLoggedIn] = useState(!!storageUserValue)
 
   const logIn = useCallback(() => setLoggedIn(true), [])
   const logOut = useCallback(() => {

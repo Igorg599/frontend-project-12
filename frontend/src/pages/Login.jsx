@@ -5,7 +5,7 @@ import axios from 'axios'
 import { TextField, Button, Box } from "@material-ui/core"
 import * as Yup from "yup"
 import routes from '../utils/routes'
-import useAuth from '../hooks/auth'
+import useAuth from '../hooks/useAuth'
 
 const SignupSchema = Yup.object().shape({
   username: Yup.string().min(4, "Слишком короткий логин").required("Обязательное поле"),

@@ -1,12 +1,12 @@
 import {
   Route, Routes, BrowserRouter, Outlet, Navigate
 } from "react-router-dom"
-import useAuth from './hooks/auth'
+import useAuth from './hooks/useAuth'
 import { Home, Login, NotFound } from "./pages"
 import { AuthProvider } from './context/authContext'
 
 const UseOutlet = () => {
-  const auth = useAuth();
+  const auth = useAuth()
   return auth.loggedIn ? <Outlet /> : <Navigate to="/login" />
 }
 
