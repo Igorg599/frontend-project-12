@@ -1,16 +1,15 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
+import { Box } from '@mui/material'
 import axios from 'axios'
 import useLocalStorage from '../hooks/useLokalStorage'
-import { appChannelsSelector, actions as actionsChannels } from '../store/channelSlice'
+import { actions as actionsChannels } from '../store/channelSlice'
 import routes from '../utils/routes'
+import Chat from '../components/Chat'
 
 const Home = () => {
   const dispatch = useDispatch()
-  const { channels, messages } = useSelector(appChannelsSelector)
   const [token] = useLocalStorage('userId')
-  console.log(channels, messages)
 
   useEffect(() => {
     axios.get(routes.getData(), { headers: { Authorization: `Bearer ${token}` } })
@@ -23,7 +22,7 @@ const Home = () => {
   }, [])
 
   return (
-    <div>Home page</div>
+    <Box className="container"><Chat /></Box>
   )
 }
 

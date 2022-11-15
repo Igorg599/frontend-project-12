@@ -6,10 +6,10 @@ import styled from './styled'
 const SideBar = () => {
   const auth = useAuth()
   return (
-    <Box style={{ ...styled, justifyContent: auth.loggedIn ? 'space-between' : 'start' }}>
+    <nav style={{ ...styled, justifyContent: auth.loggedIn ? 'space-between' : 'start' }}>
       <Box>Hexlet Chat</Box>
       {auth.loggedIn && <Button variant="contained" color="primary" onClick={() => auth.logOut()}>Выйти</Button>}
-    </Box>
+    </nav>
   )
 }
 

@@ -7,7 +7,6 @@ const styled = {
   alignItems: 'center',
   fontWeight: 600,
   boxShadow: '0 .125rem .25rem rgba(0,0,0,.075)',
-  marginBottom: 30,
 }
 
 export default styled
