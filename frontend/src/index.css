@@ -12,6 +12,11 @@ code {
     monospace;
 }
 
+* {
+  margin: 0;
+  padding: 0;
+}
+
 .login-form {
   display: flex;
   flex-direction: column;
@@ -30,3 +35,7 @@ code {
   flex: 1;
   box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important;
 };
+
+.list {
+  padding-inline-start: 40px !important;
+}
