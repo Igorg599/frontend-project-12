@@ -5,6 +5,7 @@ const styled = {
     height: 'calc(100% - 78px)',
     padding: '48px 10px 30px 10px',
     fontSize: 16,
+    backgroundColor: '#FFFAFA',
   },
   title: {
     display: 'flex',
@@ -27,7 +28,17 @@ const styled = {
     height: '100%',
     width: '100%',
     cursor: 'pointer',
-  }
+  },
+  messagesContainer: {
+    flex: 1,
+    height: '100%',
+  },
+  messagesHeader: {
+    padding: 16,
+    marginBottom: 24,
+    backgroundColor: '#FFFAFA',
+    boxShadow: '0 .125rem .25rem rgba(0,0,0,.075)',
+  },
 }
 
 export default styled
