@@ -10,9 +10,12 @@ export const { reducer, actions } = createSlice({
   name: "appChannels",
   initialState,
   reducers: {
-    addChannel: (state, { payload }) => {
+    initChannels: (state, { payload }) => {
       state.channels = payload.channels
       state.messages = payload.messages
+    },
+    addMessage: (state, { payload }) => {
+      state.messages.push(payload)
     },
   },
 })

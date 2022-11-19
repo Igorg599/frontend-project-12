@@ -29,15 +29,25 @@ const styled = {
     width: "100%",
     cursor: "pointer",
   },
-  messagesContainer: {
+  messageContainer: {
     flex: 1,
-    height: "100%",
+    height: "calc(100% - 76px)",
+    paddingBottom: 76,
+    position: "relative",
   },
-  messagesHeader: {
+  messageHeader: {
     padding: 16,
     marginBottom: 24,
     backgroundColor: "#FFFAFA",
     boxShadow: "0 .125rem .25rem rgba(0,0,0,.075)",
+  },
+  messageForm: {
+    width: "calc(100% - 96px)",
+    position: "absolute",
+    display: "flex",
+    bottom: 0,
+    height: 44,
+    padding: "16px 48px",
   },
 }
 

@@ -15,7 +15,7 @@ const Home = () => {
     axios
       .get(routes.getData(), { headers: { Authorization: `Bearer ${token}` } })
       .then((response) => {
-        dispatch(actionsChannels.addChannel(response.data))
+        dispatch(actionsChannels.initChannels(response.data))
       })
       .catch((err) => {
         throw err
