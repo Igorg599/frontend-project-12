@@ -1,6 +1,6 @@
-import { Box } from '@mui/material'
-import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
-import styled from '../styled'
+import { Box } from "@mui/material"
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline"
+import styled from "../styled"
 
 const Channels = ({ channels, activeChannelId, setActiveChannelId }) => (
   <Box style={styled.channels}>
@@ -14,15 +14,18 @@ const Channels = ({ channels, activeChannelId, setActiveChannelId }) => (
           <li
             style={{
               ...styled.listItem,
-              backgroundColor: activeChannelId === item.id ? '#5c636a' : '#FFFAFA',
-              color: activeChannelId === item.id ? '#fff' : '#000'
+              backgroundColor:
+                activeChannelId === item.id ? "#5c636a" : "#FFFAFA",
+              color: activeChannelId === item.id ? "#fff" : "#000",
             }}
             key={item.id}
           >
-            <button type="button" onClick={() => setActiveChannelId(item.id)} style={styled.button}>
-              #
-              {' '}
-              {item.name}
+            <button
+              type="button"
+              onClick={() => setActiveChannelId(item.id)}
+              style={styled.button}
+            >
+              # {item.name}
             </button>
           </li>
         ))}

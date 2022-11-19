@@ -1,9 +1,9 @@
-import { Box } from '@mui/material'
-import { useMemo, useState } from 'react'
-import { useSelector } from 'react-redux'
-import { appChannelsSelector } from '../../store/channelSlice'
-import Channels from './Channels'
-import Messages from './Messages'
+import { Box } from "@mui/material"
+import { useMemo, useState } from "react"
+import { useSelector } from "react-redux"
+import { appChannelsSelector } from "../../store/channelSlice"
+import Channels from "./Channels"
+import Messages from "./Messages"
 
 const Chat = () => {
   const { channels, messages } = useSelector(appChannelsSelector)
@@ -17,16 +17,13 @@ const Chat = () => {
   }, [activeChannelId, channels])
 
   return (
-    <Box style={{ display: 'flex', height: '100%' }}>
+    <Box style={{ display: "flex", height: "100%" }}>
       <Channels
         channels={channels}
         activeChannelId={activeChannelId}
         setActiveChannelId={setActiveChannelId}
       />
-      <Messages
-        messages={messages}
-        activeChannel={activeChannel}
-      />
+      <Messages messages={messages} activeChannel={activeChannel} />
     </Box>
   )
 }

@@ -1,15 +1,17 @@
 import { Formik } from "formik"
-import { useState } from 'react'
-import { useNavigate, useLocation } from 'react-router-dom'
-import axios from 'axios'
+import { useState } from "react"
+import { useNavigate, useLocation } from "react-router-dom"
+import axios from "axios"
 import { TextField, Button, Box } from "@material-ui/core"
 import * as Yup from "yup"
-import routes from '../utils/routes'
-import useAuth from '../hooks/useAuth'
-import useLocalStorage from '../hooks/useLokalStorage'
+import routes from "../utils/routes"
+import useAuth from "../hooks/useAuth"
+import useLocalStorage from "../hooks/useLokalStorage"
 
 const SignupSchema = Yup.object().shape({
-  username: Yup.string().min(4, "Слишком короткий логин").required("Обязательное поле"),
+  username: Yup.string()
+    .min(4, "Слишком короткий логин")
+    .required("Обязательное поле"),
   password: Yup.string()
     .required("Пароль обязателен для ввода")
     .min(4, "Слишком короткий пароль"),
@@ -20,7 +22,7 @@ const Login = () => {
   const navigate = useNavigate()
   const location = useLocation()
   const [authFailed, setAuthFailed] = useState(false)
-  const [, setValue] = useLocalStorage('userId')
+  const [, setValue] = useLocalStorage("userId")
 
   return (
     <div>
@@ -35,15 +37,15 @@ const Login = () => {
             setValue(res.data.token)
             setTimeout(() => {
               auth.logIn()
-              const { from } = location.state || { from: { pathname: '/' } }
+              const { from } = location.state || { from: { pathname: "/" } }
               navigate(from)
             })
           } catch (err) {
             if (err.isAxiosError && err.response.status === 401) {
-              setAuthFailed(true);
-              return;
+              setAuthFailed(true)
+              return
             }
-            throw err;
+            throw err
           }
         }}
       >
@@ -81,7 +83,11 @@ const Login = () => {
               error={authFailed}
             />
             {errors.password && touched.password && errors.password}
-            {authFailed && <Box style={{ color: 'red', marginTop: 10 }}>Неверный логин или пароль</Box>}
+            {authFailed && (
+              <Box style={{ color: "red", marginTop: 10 }}>
+                Неверный логин или пароль
+              </Box>
+            )}
             <Button
               type="submit"
               disabled={isSubmitting}

@@ -1,12 +1,16 @@
 import {
-  Route, Routes, BrowserRouter, Outlet, Navigate
+  Route,
+  Routes,
+  BrowserRouter,
+  Outlet,
+  Navigate,
 } from "react-router-dom"
-import { Provider } from 'react-redux'
-import useAuth from './hooks/useAuth'
+import { Provider } from "react-redux"
+import useAuth from "./hooks/useAuth"
 import { Home, Login, NotFound } from "./pages"
-import store from './store'
-import { AuthProvider } from './context/authContext'
-import SideBar from './components/SideBar'
+import store from "./store"
+import { AuthProvider } from "./context/authContext"
+import SideBar from "./components/SideBar"
 
 const UseOutlet = () => {
   const auth = useAuth()
@@ -28,7 +32,6 @@ const App = () => (
       </BrowserRouter>
     </AuthProvider>
   </Provider>
-
 )
 
 export default App
