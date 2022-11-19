@@ -1,22 +1,23 @@
-import {
-  Box,
-  FormControl,
-  OutlinedInput,
-  Button,
-  InputAdornment,
-} from "@mui/material"
+import { Box, OutlinedInput, Button, InputAdornment } from "@mui/material"
 import { Formik } from "formik"
+import { useSelector } from "react-redux"
 import SendIcon from "@mui/icons-material/Send"
 import { useEffect, useState } from "react"
 import { io } from "socket.io-client"
+import { appUserSelector } from "../../../store/userSlice"
 import styled from "../styled"
 
 const socket = io()
 
 const Messages = ({ activeChannel, messages }) => {
-  const [chanelMessages, setChanelMessages] = useState(
-    messages.filter((item) => item.channel === activeChannel)
-  )
+  const { currentUser } = useSelector(appUserSelector)
+  const [channelMessages, setChanelMessages] = useState([])
+
+  useEffect(() => {
+    setChanelMessages(
+      messages.filter((item) => item.channelName === activeChannel.name)
+    )
+  }, [messages])
 
   useEffect(() => {
     socket.on("connect", () => {
@@ -24,7 +25,7 @@ const Messages = ({ activeChannel, messages }) => {
     })
 
     return () => {
-      socket.off("Disconnect")
+      socket.off("Connect")
     }
   }, [])
 
@@ -34,14 +35,26 @@ const Messages = ({ activeChannel, messages }) => {
         <Box style={{ fontWeight: 600 }}>
           # {activeChannel && activeChannel.name}
         </Box>
-        <Box style={{ marginTop: 5 }}>{chanelMessages.length} сообщений</Box>
+        <Box style={{ marginTop: 5 }}>{channelMessages.length} сообщений</Box>
       </Box>
       <Box style={styled.messageForm}>
         <Formik
           initialValues={{ message: "" }}
           onSubmit={(values, action) => {
-            console.log(values)
-            action.resetForm()
+            socket.emit(
+              "newMessage",
+              {
+                channelName: activeChannel.name,
+                userName: currentUser,
+                textMessage: values.message,
+              },
+              (res) => {
+                if (res.status === "ok") {
+                  action.resetForm()
+                  console.log(res)
+                }
+              }
+            )
           }}
         >
           {({ values, handleChange, handleBlur, handleSubmit }) => (

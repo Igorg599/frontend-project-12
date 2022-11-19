@@ -22,7 +22,8 @@ const Login = () => {
   const navigate = useNavigate()
   const location = useLocation()
   const [authFailed, setAuthFailed] = useState(false)
-  const [, setValue] = useLocalStorage("userId")
+  const [, setValueToken] = useLocalStorage("userId")
+  const [, setValueUsername] = useLocalStorage("userName")
 
   return (
     <div>
@@ -34,7 +35,8 @@ const Login = () => {
 
           try {
             const res = await axios.post(routes.loginPath(), values)
-            setValue(res.data.token)
+            setValueToken(res.data.token)
+            setValueUsername(values.username)
             setTimeout(() => {
               auth.logIn()
               const { from } = location.state || { from: { pathname: "/" } }
