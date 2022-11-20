@@ -10,7 +10,7 @@ import useAuth from "hooks/useAuth"
 import { Home, Login, NotFound } from "pages"
 import store from "store"
 import { AuthProvider } from "context/authContext"
-import { SocketContext, socket } from "context/socket"
+import { SocketContext, socket } from "context/socketContext"
 import SideBar from "components/SideBar"
 
 const UseOutlet = () => {

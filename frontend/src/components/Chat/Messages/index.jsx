@@ -4,7 +4,7 @@ import { useSelector } from "react-redux"
 import SendIcon from "@mui/icons-material/Send"
 import { useEffect, useState, useContext, useCallback } from "react"
 import { appUserSelector } from "store/userSlice"
-import { SocketContext } from "context/socket"
+import { SocketContext } from "context/socketContext"
 import styled from "../styled"
 
 const Messages = ({ currentChannel, messages }) => {
@@ -85,7 +85,7 @@ const Messages = ({ currentChannel, messages }) => {
                       variant="text"
                       endIcon={<SendIcon />}
                       type="submit"
-                      disabled={values === ""}
+                      disabled={values.message === ""}
                     />
                   </InputAdornment>
                 }
