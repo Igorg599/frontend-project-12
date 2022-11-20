@@ -1,4 +1,5 @@
 import { Box, Typography, Modal, TextField, Button } from "@mui/material"
+import { Formik } from "formik"
 import CloseIcon from "@mui/icons-material/Close"
 import styled from "./styled"
 
@@ -14,15 +15,44 @@ const ContentModal = ({ handleClose, type }) => {
             </Typography>
             <CloseIcon onClick={handleClose} style={{ cursor: "pointer" }} />
           </Box>
-          <TextField style={styled.input} size="small" />
-          <Box style={styled.buttons}>
-            <Button variant="contained" color="inherit" onClick={handleClose}>
-              Отменить
-            </Button>
-            <Button variant="contained" style={{ marginLeft: 10 }}>
-              Отправить
-            </Button>
-          </Box>
+          <Formik
+            initialValues={{ nameChannel: "" }}
+            onSubmit={(values, action) => {
+              console.log(values)
+            }}
+          >
+            {({ values, handleChange, handleBlur, handleSubmit }) => (
+              <form style={{ width: "100%" }} onSubmit={handleSubmit}>
+                <TextField
+                  style={styled.input}
+                  size="small"
+                  value={values.nameChannel}
+                  type="text"
+                  name="nameChannel"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  required
+                />
+                <Box style={styled.buttons}>
+                  <Button
+                    variant="contained"
+                    color="inherit"
+                    onClick={handleClose}
+                    type="button"
+                  >
+                    Отменить
+                  </Button>
+                  <Button
+                    variant="contained"
+                    style={{ marginLeft: 10 }}
+                    type="submit"
+                  >
+                    Отправить
+                  </Button>
+                </Box>
+              </form>
+            )}
+          </Formik>
         </>
       )
     }

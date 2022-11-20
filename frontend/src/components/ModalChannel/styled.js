@@ -27,6 +27,7 @@ const style = {
   },
   input: {
     padding: "16px 16px 8px",
+    width: "calc(100% - 32px)",
   },
   buttons: {
     display: "flex",

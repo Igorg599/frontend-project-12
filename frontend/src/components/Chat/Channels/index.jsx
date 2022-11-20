@@ -20,7 +20,7 @@ const Channels = ({ channels, activeChannelId, setActiveChannelId }) => {
           onClick={handleOpen}
         />
       </Box>
-      <ModalChannel open={openModal} handleClose={handleClose} type="delete" />
+      <ModalChannel open={openModal} handleClose={handleClose} type="create" />
       {channels.length > 0 && (
         <ul>
           {channels.map((item) => (
