@@ -49,6 +49,11 @@ const styled = {
     height: 44,
     padding: "16px 48px",
   },
+  messageChat: {
+    padding: "0 48px",
+    overflow: "auto",
+    height: "calc(100% - 100px)",
+  },
 }
 
 export default styled

@@ -2,40 +2,52 @@ import { Box, OutlinedInput, Button, InputAdornment } from "@mui/material"
 import { Formik } from "formik"
 import { useSelector } from "react-redux"
 import SendIcon from "@mui/icons-material/Send"
-import { useEffect, useState } from "react"
-import { io } from "socket.io-client"
+import { useEffect, useState, useContext, useCallback } from "react"
 import { appUserSelector } from "../../../store/userSlice"
+import { SocketContext } from "../../../context/socket"
 import styled from "../styled"
 
-const socket = io()
-
-const Messages = ({ activeChannel, messages }) => {
+const Messages = ({ currentChannel, messages }) => {
+  const socket = useContext(SocketContext)
   const { currentUser } = useSelector(appUserSelector)
   const [channelMessages, setChanelMessages] = useState([])
 
   useEffect(() => {
     setChanelMessages(
-      messages.filter((item) => item.channelName === activeChannel.name)
+      messages.filter((item) => item.channelName === currentChannel.name)
     )
-  }, [messages])
+  }, [messages, currentChannel])
+
+  const handleUpdateChat = useCallback(
+    (message) => {
+      setChanelMessages([...channelMessages, message])
+    },
+    [channelMessages]
+  )
 
   useEffect(() => {
-    socket.on("connect", () => {
-      console.log("Connect")
-    })
+    socket.on("newMessage", handleUpdateChat)
 
     return () => {
-      socket.off("Connect")
+      socket.off("newMessage", handleUpdateChat)
     }
-  }, [])
+  }, [handleUpdateChat])
 
   return (
     <Box style={styled.messageContainer}>
       <Box style={styled.messageHeader}>
         <Box style={{ fontWeight: 600 }}>
-          # {activeChannel && activeChannel.name}
+          # {currentChannel && currentChannel.name}
         </Box>
         <Box style={{ marginTop: 5 }}>{channelMessages.length} сообщений</Box>
+      </Box>
+      <Box style={styled.messageChat}>
+        {channelMessages.length > 0 &&
+          channelMessages.map((item) => (
+            <Box key={item.id} style={{ marginBottom: 8 }}>
+              <strong>{item.userName}:</strong> {item.textMessage}
+            </Box>
+          ))}
       </Box>
       <Box style={styled.messageForm}>
         <Formik
@@ -44,14 +56,13 @@ const Messages = ({ activeChannel, messages }) => {
             socket.emit(
               "newMessage",
               {
-                channelName: activeChannel.name,
+                channelName: currentChannel.name,
                 userName: currentUser,
                 textMessage: values.message,
               },
               (res) => {
                 if (res.status === "ok") {
                   action.resetForm()
-                  console.log(res)
                 }
               }
             )

@@ -11,7 +11,7 @@ const Chat = () => {
 
   const activeChannel = useMemo(() => {
     if (channels.length > 0) {
-      return channels.filter((item) => item.id === activeChannelId)[0]
+      return channels.find((item) => item.id === activeChannelId)
     }
     return null
   }, [activeChannelId, channels])
@@ -23,7 +23,7 @@ const Chat = () => {
         activeChannelId={activeChannelId}
         setActiveChannelId={setActiveChannelId}
       />
-      <Messages messages={messages} activeChannel={activeChannel} />
+      <Messages messages={messages} currentChannel={activeChannel} />
     </Box>
   )
 }
