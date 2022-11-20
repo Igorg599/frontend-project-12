@@ -4,9 +4,9 @@ import { useNavigate, useLocation } from "react-router-dom"
 import axios from "axios"
 import { TextField, Button, Box } from "@material-ui/core"
 import * as Yup from "yup"
-import routes from "../utils/routes"
-import useAuth from "../hooks/useAuth"
-import useLocalStorage from "../hooks/useLokalStorage"
+import routes from "utils/routes"
+import useAuth from "hooks/useAuth"
+import useLocalStorage from "hooks/useLokalStorage"
 
 const SignupSchema = Yup.object().shape({
   username: Yup.string()

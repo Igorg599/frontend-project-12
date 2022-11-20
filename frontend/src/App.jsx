@@ -6,12 +6,12 @@ import {
   Navigate,
 } from "react-router-dom"
 import { Provider } from "react-redux"
-import useAuth from "./hooks/useAuth"
-import { Home, Login, NotFound } from "./pages"
-import store from "./store"
-import { AuthProvider } from "./context/authContext"
-import { SocketContext, socket } from "./context/socket"
-import SideBar from "./components/SideBar"
+import useAuth from "hooks/useAuth"
+import { Home, Login, NotFound } from "pages"
+import store from "store"
+import { AuthProvider } from "context/authContext"
+import { SocketContext, socket } from "context/socket"
+import SideBar from "components/SideBar"
 
 const UseOutlet = () => {
   const auth = useAuth()

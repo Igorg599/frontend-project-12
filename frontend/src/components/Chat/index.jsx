@@ -1,7 +1,7 @@
 import { Box } from "@mui/material"
 import { useMemo, useState } from "react"
 import { useSelector } from "react-redux"
-import { appChannelsSelector } from "../../store/channelSlice"
+import { appChannelsSelector } from "store/channelSlice"
 import Channels from "./Channels"
 import Messages from "./Messages"
 
