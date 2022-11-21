@@ -38,6 +38,10 @@ const style = {
     padding: "16px 16px 8px",
     fontSize: 20,
   },
+  error: {
+    padding: "0 16px 8px",
+    color: "red",
+  },
 }
 
 export default style

@@ -3,7 +3,7 @@ import { Formik } from "formik"
 import CloseIcon from "@mui/icons-material/Close"
 import styled from "./styled"
 
-const ContentModal = ({ handleClose, type }) => {
+const ContentModal = ({ handleClose, type, callback }) => {
   switch (type) {
     case "update":
     case "create": {
@@ -18,10 +18,16 @@ const ContentModal = ({ handleClose, type }) => {
           <Formik
             initialValues={{ nameChannel: "" }}
             onSubmit={(values, action) => {
-              console.log(values)
+              callback(values.nameChannel)
+                .then(() => {
+                  handleClose()
+                })
+                .catch((err) => {
+                  action.setErrors({ nameChannel: err.message })
+                })
             }}
           >
-            {({ values, handleChange, handleBlur, handleSubmit }) => (
+            {({ values, handleChange, handleBlur, handleSubmit, errors }) => (
               <form style={{ width: "100%" }} onSubmit={handleSubmit}>
                 <TextField
                   style={styled.input}
@@ -32,7 +38,11 @@ const ContentModal = ({ handleClose, type }) => {
                   onChange={handleChange}
                   onBlur={handleBlur}
                   required
+                  error={!!errors.nameChannel}
                 />
+                {errors.nameChannel && (
+                  <Box style={styled.error}>{errors.nameChannel}</Box>
+                )}
                 <Box style={styled.buttons}>
                   <Button
                     variant="contained"
@@ -86,7 +96,7 @@ const ContentModal = ({ handleClose, type }) => {
   }
 }
 
-const ModalChannel = ({ open, handleClose, type }) => (
+const ModalChannel = ({ open, handleClose, type, callback }) => (
   <Modal
     open={open}
     onClose={handleClose}
@@ -94,7 +104,7 @@ const ModalChannel = ({ open, handleClose, type }) => (
     aria-describedby="modal-modal-description"
   >
     <Box style={styled.container}>
-      <ContentModal type={type} handleClose={handleClose} />
+      <ContentModal type={type} handleClose={handleClose} callback={callback} />
     </Box>
   </Modal>
 )

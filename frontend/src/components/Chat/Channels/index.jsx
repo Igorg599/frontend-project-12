@@ -1,14 +1,43 @@
 import { Box } from "@mui/material"
-import { useState, useCallback } from "react"
+import { useState, useCallback, useContext } from "react"
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline"
+import { SocketContext } from "context/socketContext"
 import ModalChannel from "components/ModalChannel"
 import styled from "../styled"
 
 const Channels = ({ channels, activeChannelId, setActiveChannelId }) => {
+  const socket = useContext(SocketContext)
   const [openModal, setOpenModal] = useState(false)
 
   const handleOpen = useCallback(() => setOpenModal(true), [])
   const handleClose = useCallback(() => setOpenModal(false), [])
+
+  const createNewChannel = useCallback(
+    (channelName) => {
+      return new Promise((resolve, reject) => {
+        if (channels.find((item) => item.name === channelName)) {
+          reject(new Error("Название канала должно быть уникальным"))
+          return
+        }
+        try {
+          socket.emit(
+            "newChannel",
+            {
+              name: channelName,
+            },
+            (res) => {
+              if (res.status === "ok") {
+                resolve()
+              }
+            }
+          )
+        } catch (err) {
+          reject(err)
+        }
+      })
+    },
+    [channels]
+  )
 
   return (
     <Box style={styled.channels}>
@@ -20,7 +49,12 @@ const Channels = ({ channels, activeChannelId, setActiveChannelId }) => {
           onClick={handleOpen}
         />
       </Box>
-      <ModalChannel open={openModal} handleClose={handleClose} type="create" />
+      <ModalChannel
+        open={openModal}
+        handleClose={handleClose}
+        callback={createNewChannel}
+        type="create"
+      />
       {channels.length > 0 && (
         <ul>
           {channels.map((item) => (
