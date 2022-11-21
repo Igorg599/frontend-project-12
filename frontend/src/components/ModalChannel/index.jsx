@@ -16,33 +16,35 @@ const ContentModal = ({ handleClose, type, callback }) => {
             <CloseIcon onClick={handleClose} style={{ cursor: "pointer" }} />
           </Box>
           <Formik
-            initialValues={{ nameChannel: "" }}
+            initialValues={{ name: "" }}
             onSubmit={(values, action) => {
-              callback(values.nameChannel)
+              callback(values.name)
                 .then(() => {
                   handleClose()
                 })
                 .catch((err) => {
-                  action.setErrors({ nameChannel: err.message })
+                  action.setErrors({ name: err.message })
                 })
             }}
           >
             {({ values, handleChange, handleBlur, handleSubmit, errors }) => (
               <form style={{ width: "100%" }} onSubmit={handleSubmit}>
+                <label style={{ display: "none" }} htmlFor="name">
+                  Имя канала
+                </label>
                 <TextField
+                  id="name"
                   style={styled.input}
                   size="small"
-                  value={values.nameChannel}
+                  value={values.name}
                   type="text"
-                  name="nameChannel"
+                  name="name"
                   onChange={handleChange}
                   onBlur={handleBlur}
                   required
-                  error={!!errors.nameChannel}
+                  error={!!errors.name}
                 />
-                {errors.nameChannel && (
-                  <Box style={styled.error}>{errors.nameChannel}</Box>
-                )}
+                {errors.name && <Box style={styled.error}>{errors.name}</Box>}
                 <Box style={styled.buttons}>
                   <Button
                     variant="contained"
