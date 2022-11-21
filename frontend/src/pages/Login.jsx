@@ -71,6 +71,7 @@ const Login = () => {
               variant="outlined"
               label="username"
               error={authFailed}
+              autoFocus
             />
             {errors.username && touched.username && errors.username}
             <TextField

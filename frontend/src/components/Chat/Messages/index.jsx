@@ -2,7 +2,7 @@ import { Box, OutlinedInput, Button, InputAdornment } from "@mui/material"
 import { Formik } from "formik"
 import { useSelector } from "react-redux"
 import SendIcon from "@mui/icons-material/Send"
-import { useEffect, useState, useContext, useCallback } from "react"
+import { useEffect, useState, useContext, useCallback, useRef } from "react"
 import { appUserSelector } from "store/userSlice"
 import { SocketContext } from "context/socketContext"
 import styled from "../styled"
@@ -11,12 +11,19 @@ const Messages = ({ currentChannel, messages }) => {
   const socket = useContext(SocketContext)
   const { currentUser } = useSelector(appUserSelector)
   const [channelMessages, setChanelMessages] = useState([])
+  const inputRef = useRef(null)
 
   useEffect(() => {
     setChanelMessages(
       messages.filter((item) => item.channelName === currentChannel.name)
     )
   }, [messages, currentChannel])
+
+  useEffect(() => {
+    if (inputRef.current) {
+      inputRef.current.focus()
+    }
+  }, [currentChannel])
 
   const handleUpdateChat = useCallback(
     (message) => {
@@ -78,6 +85,7 @@ const Messages = ({ currentChannel, messages }) => {
                 placeholder="Введите сообщение..."
                 onBlur={handleBlur}
                 size="small"
+                inputRef={inputRef}
                 endAdornment={
                   <InputAdornment position="end">
                     <Button

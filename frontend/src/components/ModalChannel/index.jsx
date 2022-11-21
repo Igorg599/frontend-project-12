@@ -43,6 +43,7 @@ const ContentModal = ({ handleClose, type, callback }) => {
                   onBlur={handleBlur}
                   required
                   error={!!errors.name}
+                  autoFocus
                 />
                 {errors.name && <Box style={styled.error}>{errors.name}</Box>}
                 <Box style={styled.buttons}>
