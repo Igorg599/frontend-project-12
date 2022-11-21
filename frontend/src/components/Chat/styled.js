@@ -13,9 +13,14 @@ const styled = {
     marginLeft: 10,
     marginBottom: 20,
   },
+  list: {
+    overflow: "auto",
+    height: "calc(100% - 30px)",
+  },
   listItem: {
     listStyleType: "none",
-    height: 38,
+    minHeight: 38,
+    wordBreak: "break-word",
   },
   button: {
     padding: "6px 12px",
@@ -28,6 +33,7 @@ const styled = {
     height: "100%",
     width: "100%",
     cursor: "pointer",
+    textAlign: "left",
   },
   messageContainer: {
     flex: 1,

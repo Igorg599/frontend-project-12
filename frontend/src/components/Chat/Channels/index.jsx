@@ -56,7 +56,7 @@ const Channels = ({ channels, activeChannelId, setActiveChannelId }) => {
         type="create"
       />
       {channels.length > 0 && (
-        <ul>
+        <ul style={styled.list}>
           {channels.map((item) => (
             <li
               style={{
