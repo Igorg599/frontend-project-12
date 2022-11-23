@@ -3,9 +3,20 @@ import { useState, useCallback, useContext } from "react"
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline"
 import { SocketContext } from "context/socketContext"
 import ModalChannel from "components/ModalChannel"
+import Popup from "components/Popup"
 import styled from "../styled"
 
 const ItemChannel = ({ item, activeChannelId, setActiveChannelId }) => {
+  const [anchorEl, setAnchorEl] = useState(null)
+
+  const handleClick = useCallback((event) => {
+    setAnchorEl(event.currentTarget)
+  }, [])
+
+  const handleClose = useCallback(() => {
+    setAnchorEl(null)
+  }, [])
+
   return (
     <li
       style={{
@@ -24,9 +35,16 @@ const ItemChannel = ({ item, activeChannelId, setActiveChannelId }) => {
         # {item.name}
       </Button>
       {item.removable && (
-        <Button style={styled.buttonArrow} type="button">
-          <span style={{ display: "none" }}>Управление каналом</span>▼
-        </Button>
+        <>
+          <Button
+            style={styled.buttonArrow}
+            type="button"
+            onClick={handleClick}
+          >
+            <span style={{ display: "none" }}>Управление каналом</span>▼
+          </Button>
+          <Popup anchorEl={anchorEl} handleClose={handleClose} />
+        </>
       )}
     </li>
   )
