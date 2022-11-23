@@ -1,9 +1,36 @@
-import { Box } from "@mui/material"
+import { Box, Button } from "@mui/material"
 import { useState, useCallback, useContext } from "react"
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline"
 import { SocketContext } from "context/socketContext"
 import ModalChannel from "components/ModalChannel"
 import styled from "../styled"
+
+const ItemChannel = ({ item, activeChannelId, setActiveChannelId }) => {
+  return (
+    <li
+      style={{
+        ...styled.listItem,
+        backgroundColor: activeChannelId === item.id ? "#5c636a" : "#FFFAFA",
+      }}
+    >
+      <Button
+        type="button"
+        onClick={() => setActiveChannelId(item.id)}
+        style={{
+          ...styled.button,
+          color: activeChannelId === item.id ? "#fff" : "#000",
+        }}
+      >
+        # {item.name}
+      </Button>
+      {item.removable && (
+        <Button style={styled.buttonArrow} type="button">
+          <span style={{ display: "none" }}>Управление каналом</span>▼
+        </Button>
+      )}
+    </li>
+  )
+}
 
 const Channels = ({ channels, activeChannelId, setActiveChannelId }) => {
   const socket = useContext(SocketContext)
@@ -15,6 +42,10 @@ const Channels = ({ channels, activeChannelId, setActiveChannelId }) => {
   const createNewChannel = useCallback(
     (channelName) => {
       return new Promise((resolve, reject) => {
+        if (channelName.length < 3 || channelName.length > 20) {
+          reject(new Error("От 3 до 20 символов"))
+          return
+        }
         if (channels.find((item) => item.name === channelName)) {
           reject(new Error("Название канала должно быть уникальным"))
           return
@@ -58,28 +89,12 @@ const Channels = ({ channels, activeChannelId, setActiveChannelId }) => {
       {channels.length > 0 && (
         <ul style={styled.list}>
           {channels.map((item) => (
-            <li
-              style={{
-                ...styled.listItem,
-                backgroundColor:
-                  activeChannelId === item.id ? "#5c636a" : "#FFFAFA",
-                color: activeChannelId === item.id ? "#fff" : "#000",
-              }}
+            <ItemChannel
+              item={item}
               key={item.id}
-            >
-              <button
-                type="button"
-                onClick={() => setActiveChannelId(item.id)}
-                style={styled.button}
-              >
-                # {item.name}
-              </button>
-              {item.removable && (
-                <button style={styled.buttonArrow} type="button">
-                  <span style={{ display: "none" }}>Управление каналом</span>▼
-                </button>
-              )}
-            </li>
+              setActiveChannelId={setActiveChannelId}
+              activeChannelId={activeChannelId}
+            />
           ))}
         </ul>
       )}
