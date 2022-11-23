@@ -6,7 +6,12 @@ import ModalChannel from "components/ModalChannel"
 import Popup from "components/Popup"
 import styled from "../styled"
 
-const ItemChannel = ({ item, activeChannelId, setActiveChannelId }) => {
+const ItemChannel = ({
+  item,
+  activeChannelId,
+  setActiveChannelId,
+  callbackChannel,
+}) => {
   const [anchorEl, setAnchorEl] = useState(null)
 
   const handleClick = useCallback((event) => {
@@ -43,7 +48,12 @@ const ItemChannel = ({ item, activeChannelId, setActiveChannelId }) => {
           >
             <span style={{ display: "none" }}>Управление каналом</span>▼
           </Button>
-          <Popup anchorEl={anchorEl} handleClose={handleClose} />
+          <Popup
+            anchorEl={anchorEl}
+            handleClosePopup={handleClose}
+            item={item}
+            callbackChannel={callbackChannel}
+          />
         </>
       )}
     </li>
@@ -57,29 +67,60 @@ const Channels = ({ channels, activeChannelId, setActiveChannelId }) => {
   const handleOpen = useCallback(() => setOpenModal(true), [])
   const handleClose = useCallback(() => setOpenModal(false), [])
 
-  const createNewChannel = useCallback(
-    (channelName) => {
+  const callbackChannel = useCallback(
+    (props) => {
+      const { channelName, id } = props
+
       return new Promise((resolve, reject) => {
-        if (channelName.length < 3 || channelName.length > 20) {
-          reject(new Error("От 3 до 20 символов"))
-          return
-        }
-        if (channels.find((item) => item.name === channelName)) {
-          reject(new Error("Название канала должно быть уникальным"))
-          return
+        if (channelName) {
+          if (channelName.length < 3 || channelName.length > 20) {
+            reject(new Error("От 3 до 20 символов"))
+            return
+          }
+          if (channels.find((item) => item.name === channelName)) {
+            reject(new Error("Название канала должно быть уникальным"))
+            return
+          }
         }
         try {
-          socket.emit(
-            "newChannel",
-            {
-              name: channelName,
-            },
-            (res) => {
-              if (res.status === "ok") {
-                resolve()
+          if (!id && channelName) {
+            socket.emit(
+              "newChannel",
+              {
+                name: channelName,
+              },
+              (res) => {
+                if (res.status === "ok") {
+                  resolve()
+                }
               }
-            }
-          )
+            )
+          } else if (id && channelName) {
+            socket.emit(
+              "renameChannel",
+              {
+                name: channelName,
+                id,
+              },
+              (res) => {
+                if (res.status === "ok") {
+                  resolve()
+                }
+              }
+            )
+          } else {
+            socket.emit(
+              "removeChannel",
+              {
+                id,
+              },
+              (res) => {
+                if (res.status === "ok") {
+                  resolve()
+                }
+              }
+            )
+          }
         } catch (err) {
           reject(err)
         }
@@ -106,7 +147,7 @@ const Channels = ({ channels, activeChannelId, setActiveChannelId }) => {
       <ModalChannel
         open={openModal}
         handleClose={handleClose}
-        callback={createNewChannel}
+        callback={callbackChannel}
         type="create"
       />
       {channels.length > 0 && (
@@ -117,6 +158,7 @@ const Channels = ({ channels, activeChannelId, setActiveChannelId }) => {
               key={item.id}
               setActiveChannelId={setActiveChannelId}
               activeChannelId={activeChannelId}
+              callbackChannel={callbackChannel}
             />
           ))}
         </ul>
