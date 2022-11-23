@@ -74,6 +74,11 @@ const Channels = ({ channels, activeChannelId, setActiveChannelId }) => {
               >
                 # {item.name}
               </button>
+              {item.removable && (
+                <button style={styled.buttonArrow} type="button">
+                  <span style={{ display: "none" }}>Управление каналом</span>▼
+                </button>
+              )}
             </li>
           ))}
         </ul>
