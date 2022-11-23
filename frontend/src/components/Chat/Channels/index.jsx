@@ -92,11 +92,16 @@ const Channels = ({ channels, activeChannelId, setActiveChannelId }) => {
     <Box style={styled.channels}>
       <Box style={styled.title}>
         <Box>Каналы</Box>
-        <AddCircleOutlineIcon
-          color="primary"
-          style={{ cursor: "pointer" }}
-          onClick={handleOpen}
-        />
+        <Button
+          style={{ maxWidth: 26, maxHeight: 26, minWidth: 26 }}
+          variant="outlined"
+        >
+          <AddCircleOutlineIcon
+            color="primary"
+            style={{ cursor: "pointer" }}
+            onClick={handleOpen}
+          />
+        </Button>
       </Box>
       <ModalChannel
         open={openModal}
