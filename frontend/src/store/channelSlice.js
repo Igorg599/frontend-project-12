@@ -20,6 +20,17 @@ export const { reducer, actions } = createSlice({
     addChannel: (state, { payload }) => {
       state.channels.push(payload)
     },
+    renameChannel: (state, { payload: { id, name } }) => {
+      const channelId = Number(id)
+      const newState = state.channels.map((item) => {
+        if (item.id === channelId) {
+          item.name = name
+          return item
+        }
+        return item
+      })
+      state = newState
+    },
   },
 })
 

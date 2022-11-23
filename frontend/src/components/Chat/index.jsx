@@ -22,18 +22,24 @@ const Chat = () => {
     return null
   }, [activeChannelId, channels])
 
-  const handleAddNewChannels = useCallback((channel) => {
+  const handleAddNewChannel = useCallback((channel) => {
     dispatch(actionsChannels.addChannel(channel))
     setActiveChannelId(channel.id)
   }, [])
 
+  const handleRenameChannel = useCallback((props) => {
+    dispatch(actionsChannels.renameChannel(props))
+  }, [])
+
   useEffect(() => {
-    socket.on("newChannel", handleAddNewChannels)
+    socket.on("newChannel", handleAddNewChannel)
+    socket.on("renameChannel", handleRenameChannel)
 
     return () => {
-      socket.off("newChannel", handleAddNewChannels)
+      socket.off("newChannel", handleAddNewChannel)
+      socket.off("renameChannel", handleRenameChannel)
     }
-  }, [handleAddNewChannels])
+  }, [handleAddNewChannel, handleRenameChannel])
 
   return (
     <Box style={{ display: "flex", height: "100%" }}>
