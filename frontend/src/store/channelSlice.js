@@ -17,6 +17,9 @@ export const { reducer, actions } = createSlice({
     addMessage: (state, { payload }) => {
       state.messages.push(payload)
     },
+    addChannel: (state, { payload }) => {
+      state.channels.push(payload)
+    },
   },
 })
 
