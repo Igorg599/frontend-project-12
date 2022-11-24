@@ -12,6 +12,9 @@ export const { reducer, actions } = createSlice({
     initUser: (state, { payload }) => {
       state.currentUser = payload
     },
+    signOff: (state) => {
+      state.currentUser = null
+    },
   },
 })
 

@@ -4,12 +4,13 @@ import useLocalStorage from "hooks/useLokalStorage"
 const AuthContext = createContext({})
 
 export const AuthProvider = ({ children }) => {
-  const [storageUserValue] = useLocalStorage("userId")
+  const [storageUserValue] = useLocalStorage("token")
   const [loggedIn, setLoggedIn] = useState(!!storageUserValue)
 
   const logIn = useCallback(() => setLoggedIn(true), [])
   const logOut = useCallback(() => {
-    localStorage.removeItem("userId")
+    localStorage.removeItem("token")
+    localStorage.removeItem("userName")
     setLoggedIn(false)
   }, [])
 

@@ -1,10 +1,20 @@
 import { Button } from "@material-ui/core"
 import { Box } from "@mui/material"
-import useAuth from "../../hooks/useAuth"
+import { useDispatch } from "react-redux"
+import { actions as actionsUser } from "store/userSlice"
+import useAuth from "hooks/useAuth"
 import styled from "./styled"
+import { useCallback } from "react"
 
 const SideBar = () => {
+  const dispatch = useDispatch()
   const auth = useAuth()
+
+  const goOutApp = useCallback(() => {
+    auth.logOut()
+    dispatch(actionsUser.signOff())
+  }, [])
+
   return (
     <nav
       style={{
@@ -14,11 +24,7 @@ const SideBar = () => {
     >
       <Box>Hexlet Chat</Box>
       {auth.loggedIn && (
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={() => auth.logOut()}
-        >
+        <Button variant="contained" color="primary" onClick={goOutApp}>
           Выйти
         </Button>
       )}

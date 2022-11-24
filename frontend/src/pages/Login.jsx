@@ -22,7 +22,7 @@ const Login = () => {
   const navigate = useNavigate()
   const location = useLocation()
   const [authFailed, setAuthFailed] = useState(false)
-  const [, setValueToken] = useLocalStorage("userId")
+  const [, setValueToken] = useLocalStorage("token")
   const [, setValueUsername] = useLocalStorage("userName")
 
   return (

@@ -10,7 +10,7 @@ import Chat from "components/Chat"
 
 const Home = () => {
   const dispatch = useDispatch()
-  const [token] = useLocalStorage("userId")
+  const [token] = useLocalStorage("token")
   const [userName] = useLocalStorage("userName")
 
   useEffect(() => {
