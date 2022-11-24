@@ -1,16 +1,22 @@
 import { Box, Typography, Modal, TextField, Button } from "@mui/material"
-import { useCallback } from "react"
+import { useCallback, useState } from "react"
 import { Formik } from "formik"
 import CloseIcon from "@mui/icons-material/Close"
 import styled from "./styled"
 
 const ContentModal = ({ handleClose, type, callback, itemChannel }) => {
+  const [disabledButton, setDisabledButton] = useState(false)
+
   const handleDeleteChannel = useCallback(() => {
+    setDisabledButton(true)
     callback({ id: itemChannel.id })
       .then(() => {
         handleClose()
       })
-      .catch((err) => console.log(err))
+      .catch((err) => {
+        setDisabledButton(false)
+        console.log(err)
+      })
   }, [itemChannel, callback])
 
   switch (type) {
@@ -27,6 +33,7 @@ const ContentModal = ({ handleClose, type, callback, itemChannel }) => {
           <Formik
             initialValues={{ name: type === "create" ? "" : itemChannel.name }}
             onSubmit={(values, action) => {
+              setDisabledButton(true)
               callback(
                 type === "create"
                   ? { channelName: values.name }
@@ -36,6 +43,7 @@ const ContentModal = ({ handleClose, type, callback, itemChannel }) => {
                   handleClose()
                 })
                 .catch((err) => {
+                  setDisabledButton(false)
                   action.setErrors({ name: err.message })
                 })
             }}
@@ -72,6 +80,7 @@ const ContentModal = ({ handleClose, type, callback, itemChannel }) => {
                     variant="contained"
                     style={{ marginLeft: 10 }}
                     type="submit"
+                    disabled={disabledButton}
                   >
                     Отправить
                   </Button>
@@ -100,6 +109,7 @@ const ContentModal = ({ handleClose, type, callback, itemChannel }) => {
               color="error"
               style={{ marginLeft: 10 }}
               onClick={handleDeleteChannel}
+              disabled={disabledButton}
             >
               Удалить
             </Button>

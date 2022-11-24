@@ -32,6 +32,7 @@ const styled = {
     height: "100%",
     textAlign: "left",
     flex: 1,
+    textTransform: "none",
   },
   buttonArrow: {
     padding: "6px 12px",
