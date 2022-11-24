@@ -5,6 +5,7 @@ import {
   appChannelsSelector,
   actions as actionsChannels,
 } from "store/channelSlice"
+import { appMessagesSelector } from "store/messageSlice"
 import { SocketContext } from "context/socketContext"
 import Channels from "./Channels"
 import Messages from "./Messages"
@@ -12,7 +13,8 @@ import Messages from "./Messages"
 const Chat = () => {
   const socket = useContext(SocketContext)
   const dispatch = useDispatch()
-  const { channels, messages } = useSelector(appChannelsSelector)
+  const { channels } = useSelector(appChannelsSelector)
+  const { messages } = useSelector(appMessagesSelector)
   const [activeChannelId, setActiveChannelId] = useState(1)
 
   const activeChannel = useMemo(() => {

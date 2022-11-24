@@ -3,7 +3,6 @@ import { createSlice } from "@reduxjs/toolkit"
 
 const initialState = {
   channels: [],
-  messages: [],
 }
 
 export const { reducer, actions } = createSlice({
@@ -11,11 +10,7 @@ export const { reducer, actions } = createSlice({
   initialState,
   reducers: {
     initChannels: (state, { payload }) => {
-      state.channels = payload.channels
-      state.messages = payload.messages
-    },
-    addMessage: (state, { payload }) => {
-      state.messages.push(payload)
+      state.channels = payload
     },
     addChannel: (state, { payload }) => {
       state.channels.push(payload)
