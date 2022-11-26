@@ -18,11 +18,13 @@ const SideBar = () => {
   return (
     <nav
       style={{
-        ...styled,
+        ...styled.nav,
         justifyContent: auth.loggedIn ? "space-between" : "start",
       }}
     >
-      <Box>Hexlet Chat</Box>
+      <a href="/" style={styled.link}>
+        Hexlet Chat
+      </a>
       {auth.loggedIn && (
         <Button variant="contained" color="primary" onClick={goOutApp}>
           Выйти
