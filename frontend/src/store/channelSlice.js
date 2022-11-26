@@ -26,6 +26,10 @@ export const { reducer, actions } = createSlice({
       })
       state = newState
     },
+    removeChannel: (state, { payload: { id } }) => {
+      const channelId = Number(id)
+      state.channels = state.channels.filter((c) => c.id !== channelId)
+    },
   },
 })
 

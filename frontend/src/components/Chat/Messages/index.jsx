@@ -16,9 +16,11 @@ const Messages = ({ currentChannel, messages }) => {
   const inputRef = useRef(null)
 
   useEffect(() => {
-    setChanelMessages(
-      messages.filter((item) => item.channelName === currentChannel.name)
-    )
+    if (currentChannel) {
+      setChanelMessages(
+        messages.filter((item) => item.channelId === currentChannel.id)
+      )
+    }
   }, [messages, currentChannel])
 
   useEffect(() => {
@@ -55,7 +57,7 @@ const Messages = ({ currentChannel, messages }) => {
         {channelMessages.length > 0 &&
           channelMessages.map((item) => (
             <Box key={item.id} style={{ marginBottom: 8 }}>
-              <strong>{item.userName}:</strong> {item.textMessage}
+              <strong>{item.username}:</strong> {item.textMessage}
             </Box>
           ))}
       </Box>
@@ -66,8 +68,8 @@ const Messages = ({ currentChannel, messages }) => {
             socket.emit(
               "newMessage",
               {
-                channelName: currentChannel.name,
-                userName: currentUser,
+                channelId: currentChannel.id,
+                username: currentUser,
                 textMessage: values.message,
               },
               (res) => {

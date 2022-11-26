@@ -33,15 +33,22 @@ const Chat = () => {
     dispatch(actionsChannels.renameChannel(props))
   }, [])
 
+  const handleRemoveChannel = useCallback((props) => {
+    dispatch(actionsChannels.removeChannel(props))
+    setActiveChannelId(1)
+  }, [])
+
   useEffect(() => {
     socket.on("newChannel", handleAddNewChannel)
     socket.on("renameChannel", handleRenameChannel)
+    socket.on("removeChannel", handleRemoveChannel)
 
     return () => {
       socket.off("newChannel", handleAddNewChannel)
       socket.off("renameChannel", handleRenameChannel)
+      socket.off("removeChannel", handleRemoveChannel)
     }
-  }, [handleAddNewChannel, handleRenameChannel])
+  }, [handleAddNewChannel, handleRenameChannel, handleRemoveChannel])
 
   return (
     <Box style={{ display: "flex", height: "100%" }}>
