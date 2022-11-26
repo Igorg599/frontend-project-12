@@ -10,14 +10,18 @@ import useLocalStorage from "hooks/useLokalStorage"
 
 const SignupSchema = Yup.object().shape({
   username: Yup.string()
-    .min(4, "Слишком короткий логин")
+    .min(3, "От 3 до 20 символов")
+    .max(20, "От 3 до 20 символов")
     .required("Обязательное поле"),
   password: Yup.string()
     .required("Пароль обязателен для ввода")
-    .min(4, "Слишком короткий пароль"),
+    .min(6, "Не менее 6 символов"),
+  confirmPassword: Yup.string()
+    .required("Пароль обязателен для ввода")
+    .min(6, "Не менее 6 символов"),
 })
 
-const Login = () => {
+const Registration = () => {
   const auth = useAuth()
   const navigate = useNavigate()
   const location = useLocation()
@@ -27,22 +31,33 @@ const Login = () => {
 
   return (
     <Formik
-      initialValues={{ username: "", password: "" }}
+      initialValues={{ username: "", password: "", confirmPassword: "" }}
       validationSchema={SignupSchema}
-      onSubmit={async (values) => {
+      onSubmit={async (values, action) => {
+        const { username, password, confirmPassword } = values
+
         setAuthFailed(false)
+        action.setErrors({})
+
+        if (password !== confirmPassword) {
+          action.setErrors({ confirmPassword: "Пароли должны совпадать" })
+          return
+        }
 
         try {
-          const res = await axios.post(routes.loginPath(), values)
+          const res = await axios.post(routes.registerPath(), {
+            username,
+            password,
+          })
           setValueToken(res.data.token)
-          setValueUsername(values.username)
+          setValueUsername(username)
           setTimeout(() => {
             auth.logIn()
             const { from } = location.state || { from: { pathname: "/" } }
             navigate(from)
           })
         } catch (err) {
-          if (err.isAxiosError && err.response.status === 401) {
+          if (err.isAxiosError && err.response.status === 409) {
             setAuthFailed(true)
             return
           }
@@ -69,7 +84,6 @@ const Login = () => {
             className="login-input"
             variant="outlined"
             label="username"
-            error={authFailed}
             autoFocus
           />
           <Box style={{ color: "red" }}>
@@ -84,14 +98,28 @@ const Login = () => {
             style={{ marginTop: 30 }}
             variant="outlined"
             label="password"
-            error={authFailed}
           />
           <Box style={{ color: "red" }}>
             {errors.password && touched.password && errors.password}
           </Box>
+          <TextField
+            type="password"
+            name="confirmPassword"
+            onChange={handleChange}
+            onBlur={handleBlur}
+            value={values.confirmPassword}
+            style={{ marginTop: 30 }}
+            variant="outlined"
+            label="confirmPassword"
+          />
+          <Box style={{ color: "red" }}>
+            {errors.confirmPassword &&
+              touched.confirmPassword &&
+              errors.confirmPassword}
+          </Box>
           {authFailed && (
             <Box style={{ color: "red", marginTop: 10 }}>
-              Неверный логин или пароль
+              Такой пользователь уже существует
             </Box>
           )}
           <Button
@@ -101,25 +129,12 @@ const Login = () => {
             color="primary"
             style={{ marginTop: 30 }}
           >
-            Войти
+            Зарегистрироваться
           </Button>
-          <Box
-            style={{
-              width: "100%",
-              marginTop: 20,
-              display: "flex",
-              justifyContent: "center",
-            }}
-          >
-            <span>Нет аккаунта?&nbsp;</span>
-            <a href="/signup" style={{ outline: "none " }}>
-              Регистрация
-            </a>
-          </Box>
         </form>
       )}
     </Formik>
   )
 }
 
-export default Login
+export default Registration
