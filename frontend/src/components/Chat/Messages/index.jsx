@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from "react-redux"
 import { useTranslation } from "react-i18next"
 import SendIcon from "@mui/icons-material/Send"
 import { useEffect, useState, useContext, useCallback, useRef } from "react"
+import filter from "leo-profanity"
 import { appUserSelector } from "store/userSlice"
 import { SocketContext } from "context/socketContext"
 import { actions as actionsMessages } from "store/messageSlice"
@@ -71,12 +72,14 @@ const Messages = ({ currentChannel, messages }) => {
         <Formik
           initialValues={{ message: "" }}
           onSubmit={(values, action) => {
+            const cenzureText = filter.clean(values.message)
+
             socket.emit(
               "newMessage",
               {
                 channelId: currentChannel.id,
                 username: currentUser,
-                textMessage: values.message,
+                textMessage: cenzureText,
               },
               (res) => {
                 if (res.status === "ok") {
