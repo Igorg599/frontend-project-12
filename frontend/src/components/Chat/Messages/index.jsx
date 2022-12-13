@@ -1,6 +1,7 @@
 import { Box, OutlinedInput, Button, InputAdornment } from "@mui/material"
 import { Formik } from "formik"
 import { useSelector, useDispatch } from "react-redux"
+import { useTranslation } from "react-i18next"
 import SendIcon from "@mui/icons-material/Send"
 import { useEffect, useState, useContext, useCallback, useRef } from "react"
 import { appUserSelector } from "store/userSlice"
@@ -11,6 +12,7 @@ import styled from "../styled"
 const Messages = ({ currentChannel, messages }) => {
   const dispatch = useDispatch()
   const socket = useContext(SocketContext)
+  const { t } = useTranslation()
   const { currentUser } = useSelector(appUserSelector)
   const [channelMessages, setChanelMessages] = useState([])
   const inputRef = useRef(null)
@@ -51,7 +53,11 @@ const Messages = ({ currentChannel, messages }) => {
         <Box style={{ fontWeight: 600 }}>
           # {currentChannel && currentChannel.name}
         </Box>
-        <Box style={{ marginTop: 5 }}>{channelMessages.length} сообщений</Box>
+        <Box style={{ marginTop: 5 }}>
+          {t("messages.key", {
+            count: channelMessages.length,
+          })}
+        </Box>
       </Box>
       <Box style={styled.messageChat}>
         {channelMessages.length > 0 &&
@@ -87,7 +93,7 @@ const Messages = ({ currentChannel, messages }) => {
                 type="text"
                 value={values.message}
                 onChange={handleChange}
-                placeholder="Введите сообщение..."
+                placeholder={t("enterMessage")}
                 onBlur={handleBlur}
                 size="small"
                 inputRef={inputRef}

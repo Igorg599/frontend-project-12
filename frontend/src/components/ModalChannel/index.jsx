@@ -1,10 +1,12 @@
 import { Box, Typography, Modal, TextField, Button } from "@mui/material"
 import { useCallback, useState } from "react"
+import { useTranslation } from "react-i18next"
 import { Formik } from "formik"
 import CloseIcon from "@mui/icons-material/Close"
 import styled from "./styled"
 
 const ContentModal = ({ handleClose, type, callback, itemChannel }) => {
+  const { t } = useTranslation()
   const [disabledButton, setDisabledButton] = useState(false)
 
   const handleDeleteChannel = useCallback(() => {
@@ -26,7 +28,7 @@ const ContentModal = ({ handleClose, type, callback, itemChannel }) => {
         <>
           <Box style={styled.header}>
             <Typography style={styled.title}>
-              {type === "create" ? "Создать канал" : "Переименовать канал"}
+              {type === "create" ? t("modal.create") : t("modal.rename")}
             </Typography>
             <CloseIcon onClick={handleClose} style={{ cursor: "pointer" }} />
           </Box>
@@ -51,7 +53,7 @@ const ContentModal = ({ handleClose, type, callback, itemChannel }) => {
             {({ values, handleChange, handleBlur, handleSubmit, errors }) => (
               <form style={{ width: "100%" }} onSubmit={handleSubmit}>
                 <label style={{ display: "none" }} htmlFor="name">
-                  Имя канала
+                  {t("modal.name")}
                 </label>
                 <TextField
                   id="name"
@@ -74,7 +76,7 @@ const ContentModal = ({ handleClose, type, callback, itemChannel }) => {
                     onClick={handleClose}
                     type="button"
                   >
-                    Отменить
+                    {t("cancel")}
                   </Button>
                   <Button
                     variant="contained"
@@ -82,7 +84,7 @@ const ContentModal = ({ handleClose, type, callback, itemChannel }) => {
                     type="submit"
                     disabled={disabledButton}
                   >
-                    Отправить
+                    {t("send")}
                   </Button>
                 </Box>
               </form>
@@ -96,13 +98,15 @@ const ContentModal = ({ handleClose, type, callback, itemChannel }) => {
       return (
         <>
           <Box style={styled.header}>
-            <Typography style={styled.title}>Удалить канал</Typography>
+            <Typography style={styled.title}>
+              {t("modal.deleteChannel")}
+            </Typography>
             <CloseIcon onClick={handleClose} style={{ cursor: "pointer" }} />
           </Box>
-          <Typography style={styled.delete}>Уверены?</Typography>
+          <Typography style={styled.delete}>{t("modal.sure")}</Typography>
           <Box style={styled.buttons}>
             <Button variant="contained" color="inherit" onClick={handleClose}>
-              Отменить
+              {t("cancel")}
             </Button>
             <Button
               variant="contained"
@@ -111,7 +115,7 @@ const ContentModal = ({ handleClose, type, callback, itemChannel }) => {
               onClick={handleDeleteChannel}
               disabled={disabledButton}
             >
-              Удалить
+              {t("delete")}
             </Button>
           </Box>
         </>

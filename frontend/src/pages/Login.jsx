@@ -3,27 +3,29 @@ import { useState } from "react"
 import { useNavigate, useLocation } from "react-router-dom"
 import axios from "axios"
 import { TextField, Button, Box } from "@material-ui/core"
+import { useTranslation } from "react-i18next"
 import * as Yup from "yup"
 import routes from "utils/routes"
 import useAuth from "hooks/useAuth"
 import useLocalStorage from "hooks/useLokalStorage"
 
-const SignupSchema = Yup.object().shape({
-  username: Yup.string()
-    .min(4, "Слишком короткий логин")
-    .required("Обязательное поле"),
-  password: Yup.string()
-    .required("Пароль обязателен для ввода")
-    .min(4, "Слишком короткий пароль"),
-})
-
 const Login = () => {
   const auth = useAuth()
   const navigate = useNavigate()
   const location = useLocation()
+  const { t } = useTranslation()
   const [authFailed, setAuthFailed] = useState(false)
   const [, setValueToken] = useLocalStorage("token")
   const [, setValueUsername] = useLocalStorage("userName")
+
+  const SignupSchema = Yup.object().shape({
+    username: Yup.string()
+      .min(4, t("errors.shortName"))
+      .required(t("errors.requiredName")),
+    password: Yup.string()
+      .required(t("errors.requiredPassword"))
+      .min(4, t("errors.shortPassword")),
+  })
 
   return (
     <Formik
@@ -91,7 +93,7 @@ const Login = () => {
           </Box>
           {authFailed && (
             <Box style={{ color: "red", marginTop: 10 }}>
-              Неверный логин или пароль
+              {t("errors.verification")}
             </Box>
           )}
           <Button
@@ -101,7 +103,7 @@ const Login = () => {
             color="primary"
             style={{ marginTop: 30 }}
           >
-            Войти
+            {t("signIn")}
           </Button>
           <Box
             style={{
@@ -111,9 +113,9 @@ const Login = () => {
               justifyContent: "center",
             }}
           >
-            <span>Нет аккаунта?&nbsp;</span>
+            <span>{t("not")}&nbsp;</span>
             <a href="/signup" style={{ outline: "none " }}>
-              Регистрация
+              {t("register")}
             </a>
           </Box>
         </form>

@@ -1,5 +1,5 @@
 import { Button } from "@material-ui/core"
-import { Box } from "@mui/material"
+import { useTranslation } from "react-i18next"
 import { useDispatch } from "react-redux"
 import { actions as actionsUser } from "store/userSlice"
 import useAuth from "hooks/useAuth"
@@ -9,6 +9,7 @@ import { useCallback } from "react"
 const SideBar = () => {
   const dispatch = useDispatch()
   const auth = useAuth()
+  const { t } = useTranslation()
 
   const goOutApp = useCallback(() => {
     auth.logOut()
@@ -23,11 +24,11 @@ const SideBar = () => {
       }}
     >
       <a href="/" style={styled.link}>
-        Hexlet Chat
+        {t("title")}
       </a>
       {auth.loggedIn && (
         <Button variant="contained" color="primary" onClick={goOutApp}>
-          Выйти
+          {t("signOut")}
         </Button>
       )}
     </nav>

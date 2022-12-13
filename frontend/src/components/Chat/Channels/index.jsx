@@ -1,6 +1,7 @@
 import { Box, Button } from "@mui/material"
 import { useState, useCallback, useContext } from "react"
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline"
+import { useTranslation } from "react-i18next"
 import { SocketContext } from "context/socketContext"
 import ModalChannel from "components/ModalChannel"
 import Popup from "components/Popup"
@@ -12,6 +13,7 @@ const ItemChannel = ({
   setActiveChannelId,
   callbackChannel,
 }) => {
+  const { t } = useTranslation()
   const [anchorEl, setAnchorEl] = useState(null)
 
   const handleClick = useCallback((event) => {
@@ -46,7 +48,7 @@ const ItemChannel = ({
             type="button"
             onClick={handleClick}
           >
-            <span style={{ display: "none" }}>Управление каналом</span>▼
+            <span style={{ display: "none" }}>{t("channelManagement")}</span>▼
           </Button>
           <Popup
             anchorEl={anchorEl}
@@ -62,6 +64,7 @@ const ItemChannel = ({
 
 const Channels = ({ channels, activeChannelId, setActiveChannelId }) => {
   const socket = useContext(SocketContext)
+  const { t } = useTranslation()
   const [openModal, setOpenModal] = useState(false)
 
   const handleOpen = useCallback(() => setOpenModal(true), [])
@@ -74,11 +77,11 @@ const Channels = ({ channels, activeChannelId, setActiveChannelId }) => {
       return new Promise((resolve, reject) => {
         if (channelName) {
           if (channelName.length < 3 || channelName.length > 20) {
-            reject(new Error("От 3 до 20 символов"))
+            reject(new Error(t("errors.minMaxName")))
             return
           }
           if (channels.find((item) => item.name === channelName)) {
-            reject(new Error("Название канала должно быть уникальным"))
+            reject(new Error(t("errors.uniqueChannel")))
             return
           }
         }
@@ -132,7 +135,7 @@ const Channels = ({ channels, activeChannelId, setActiveChannelId }) => {
   return (
     <Box style={styled.channels}>
       <Box style={styled.title}>
-        <Box>Каналы</Box>
+        <Box>{t("channels")}</Box>
         <Button
           style={{ maxWidth: 26, maxHeight: 26, minWidth: 26 }}
           variant="outlined"

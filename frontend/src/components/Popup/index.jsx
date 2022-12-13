@@ -1,10 +1,12 @@
 import Popover from "@mui/material/Popover"
 import { Button, Box } from "@mui/material"
 import { useState, useCallback } from "react"
+import { useTranslation } from "react-i18next"
 import ModalChannel from "components/ModalChannel"
 import styled from "./styled"
 
 const Popup = ({ anchorEl, handleClosePopup, item, callbackChannel }) => {
+  const { t } = useTranslation()
   const [openModalUpdate, setOpenModalUpdate] = useState(false)
   const [openModalDelete, setOpenModalDelete] = useState(false)
 
@@ -38,7 +40,7 @@ const Popup = ({ anchorEl, handleClosePopup, item, callbackChannel }) => {
               handleClosePopup()
             }}
           >
-            Удалить
+            {t("delete")}
           </Button>
           <Button
             style={styled.button}
@@ -48,7 +50,7 @@ const Popup = ({ anchorEl, handleClosePopup, item, callbackChannel }) => {
               handleClosePopup()
             }}
           >
-            Переименовать
+            {t("rename")}
           </Button>
         </Box>
       </Popover>

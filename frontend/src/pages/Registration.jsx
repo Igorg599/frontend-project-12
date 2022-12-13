@@ -1,6 +1,7 @@
 import { Formik } from "formik"
 import { useState } from "react"
 import { useNavigate, useLocation } from "react-router-dom"
+import { useTranslation } from "react-i18next"
 import axios from "axios"
 import { TextField, Button, Box } from "@material-ui/core"
 import * as Yup from "yup"
@@ -8,26 +9,27 @@ import routes from "utils/routes"
 import useAuth from "hooks/useAuth"
 import useLocalStorage from "hooks/useLokalStorage"
 
-const SignupSchema = Yup.object().shape({
-  username: Yup.string()
-    .min(3, "От 3 до 20 символов")
-    .max(20, "От 3 до 20 символов")
-    .required("Обязательное поле"),
-  password: Yup.string()
-    .required("Пароль обязателен для ввода")
-    .min(6, "Не менее 6 символов"),
-  confirmPassword: Yup.string()
-    .required("Пароль обязателен для ввода")
-    .min(6, "Не менее 6 символов"),
-})
-
 const Registration = () => {
   const auth = useAuth()
   const navigate = useNavigate()
   const location = useLocation()
+  const { t } = useTranslation()
   const [authFailed, setAuthFailed] = useState(false)
   const [, setValueToken] = useLocalStorage("token")
   const [, setValueUsername] = useLocalStorage("userName")
+
+  const SignupSchema = Yup.object().shape({
+    username: Yup.string()
+      .min(3, t("errors.minMaxName"))
+      .max(20, t("errors.minMaxName"))
+      .required(t("errors.requiredName")),
+    password: Yup.string()
+      .required(t("errors.requiredPassword"))
+      .min(6, t("errors.minPassword")),
+    confirmPassword: Yup.string()
+      .required(t("errors.requiredPassword"))
+      .min(6, t("errors.minPassword")),
+  })
 
   return (
     <Formik
@@ -40,7 +42,7 @@ const Registration = () => {
         action.setErrors({})
 
         if (password !== confirmPassword) {
-          action.setErrors({ confirmPassword: "Пароли должны совпадать" })
+          action.setErrors({ confirmPassword: t("errors.matchPasswords") })
           return
         }
 
@@ -119,7 +121,7 @@ const Registration = () => {
           </Box>
           {authFailed && (
             <Box style={{ color: "red", marginTop: 10 }}>
-              Такой пользователь уже существует
+              {t("errors.existUser")}
             </Box>
           )}
           <Button
@@ -129,7 +131,7 @@ const Registration = () => {
             color="primary"
             style={{ marginTop: 30 }}
           >
-            Зарегистрироваться
+            {t("signUp")}
           </Button>
         </form>
       )}
