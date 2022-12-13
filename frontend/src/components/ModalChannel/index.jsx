@@ -1,11 +1,12 @@
 import { Box, Typography, Modal, TextField, Button } from "@mui/material"
 import { useCallback, useState } from "react"
 import { useTranslation } from "react-i18next"
+import { ToastContainer, toast } from "react-toastify"
 import { Formik } from "formik"
 import CloseIcon from "@mui/icons-material/Close"
 import styled from "./styled"
 
-const ContentModal = ({ handleClose, type, callback, itemChannel }) => {
+const ContentModal = ({ handleClose, type, callback, itemChannel, notify }) => {
   const { t } = useTranslation()
   const [disabledButton, setDisabledButton] = useState(false)
 
@@ -13,6 +14,7 @@ const ContentModal = ({ handleClose, type, callback, itemChannel }) => {
     setDisabledButton(true)
     callback({ id: itemChannel.id })
       .then(() => {
+        notify(t("toast.deleteChannel"))
         handleClose()
       })
       .catch((err) => {
@@ -42,6 +44,11 @@ const ContentModal = ({ handleClose, type, callback, itemChannel }) => {
                   : { channelName: values.name, id: itemChannel.id }
               )
                 .then(() => {
+                  notify(
+                    type === "create"
+                      ? t("toast.createChannel")
+                      : t("toast.renameChannel")
+                  )
                   handleClose()
                 })
                 .catch((err) => {
@@ -127,22 +134,30 @@ const ContentModal = ({ handleClose, type, callback, itemChannel }) => {
   }
 }
 
-const ModalChannel = ({ open, handleClose, type, callback, itemChannel }) => (
-  <Modal
-    open={open}
-    onClose={handleClose}
-    aria-labelledby="modal-modal-title"
-    aria-describedby="modal-modal-description"
-  >
-    <Box style={styled.container}>
-      <ContentModal
-        type={type}
-        handleClose={handleClose}
-        callback={callback}
-        itemChannel={itemChannel}
-      />
-    </Box>
-  </Modal>
-)
+const ModalChannel = ({ open, handleClose, type, callback, itemChannel }) => {
+  const notify = useCallback((message) => toast.success(message), [])
+
+  return (
+    <>
+      <ToastContainer />
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box style={styled.container}>
+          <ContentModal
+            type={type}
+            handleClose={handleClose}
+            callback={callback}
+            itemChannel={itemChannel}
+            notify={notify}
+          />
+        </Box>
+      </Modal>
+    </>
+  )
+}
 
 export default ModalChannel

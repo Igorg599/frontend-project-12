@@ -38,5 +38,10 @@ export default {
     send: "Отправить",
     delete: "Удалить",
     rename: "Переименовать",
+    toast: {
+      createChannel: "Канал создан",
+      renameChannel: "Канал переименован",
+      deleteChannel: "Канал удалён",
+    },
   },
 }
