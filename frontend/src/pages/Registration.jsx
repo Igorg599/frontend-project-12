@@ -85,7 +85,8 @@ const Registration = () => {
             value={values.username}
             className="login-input"
             variant="outlined"
-            label="username"
+            placeholder={t("nameUser")}
+            label={t("nameUser")}
             autoFocus
           />
           <Box style={{ color: "red" }}>
@@ -99,7 +100,8 @@ const Registration = () => {
             value={values.password}
             style={{ marginTop: 30 }}
             variant="outlined"
-            label="password"
+            placeholder={t("password")}
+            label={t("password")}
           />
           <Box style={{ color: "red" }}>
             {errors.password && touched.password && errors.password}
@@ -112,7 +114,8 @@ const Registration = () => {
             value={values.confirmPassword}
             style={{ marginTop: 30 }}
             variant="outlined"
-            label="confirmPassword"
+            placeholder={t("confirmPassword")}
+            label={t("confirmPassword")}
           />
           <Box style={{ color: "red" }}>
             {errors.confirmPassword &&

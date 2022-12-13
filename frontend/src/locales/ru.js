@@ -43,5 +43,9 @@ export default {
       renameChannel: "Канал переименован",
       deleteChannel: "Канал удалён",
     },
+    nick: "Ваш ник",
+    password: "Пароль",
+    nameUser: "Имя пользователя",
+    confirmPassword: "Подтвердите пароль",
   },
 }
