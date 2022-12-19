@@ -11,4 +11,4 @@
 make install
 ```
 
-<a href='https://frontend-project-12-production-01b6.up.railway.app/'>Развернутый проект</a>
+<a href='https://frontend-project-12-production-49d7.up.railway.app/'>Развернутый проект</a>
