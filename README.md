@@ -1,5 +1,14 @@
 ### Hexlet tests and linter status:
 
 [![Actions Status](https://github.com/Igorg599/frontend-project-12/workflows/hexlet-check/badge.svg)](https://github.com/Igorg599/frontend-project-12/actions)
+[![Maintainability](https://api.codeclimate.com/v1/badges/110a7bb86b139597f741/maintainability)](https://codeclimate.com/github/Igorg599/frontend-project-12/maintainability)
 
-https://frontend-project-12-production-01b6.up.railway.app/ - Развернутый проект
+# Hexlet Chat
+
+## Установка
+
+```sh
+make install
+```
+
+<a href='https://frontend-project-12-production-01b6.up.railway.app/'>Развернутый проект</a>
