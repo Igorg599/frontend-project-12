@@ -15,6 +15,7 @@ const Messages = ({ currentChannel, messages }) => {
   const { currentUser } = useSelector(appUserSelector)
   const [channelMessages, setChanelMessages] = useState([])
   const inputRef = useRef(null)
+  const messagesEndRef = useRef(null)
 
   useEffect(() => {
     if (currentChannel) {
@@ -29,6 +30,10 @@ const Messages = ({ currentChannel, messages }) => {
       inputRef.current.focus()
     }
   }, [currentChannel])
+
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView()
+  }, [channelMessages])
 
   return (
     <Box style={styled.messageContainer}>
@@ -49,6 +54,7 @@ const Messages = ({ currentChannel, messages }) => {
               <strong>{item.username}:</strong> {item.textMessage}
             </Box>
           ))}
+        <div ref={messagesEndRef} />
       </Box>
       <Box style={styled.messageForm}>
         <Formik
