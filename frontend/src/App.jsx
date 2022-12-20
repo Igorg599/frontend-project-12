@@ -13,9 +13,24 @@ import filterLeo from "leo-profanity"
 import useAuth from "hooks/useAuth"
 import { Home, Login, NotFound, Registration } from "pages"
 import store from "store"
+import { actions as actionsChannels } from "store/channelSlice"
+import { actions as actionsMessages } from "store/messageSlice"
 import { AuthProvider } from "context/authContext"
 import { SocketContext, socket } from "context/socketContext"
 import SideBar from "components/SideBar"
+
+socket.on("newChannel", (channel) => {
+  store.dispatch(actionsChannels.addChannel(channel))
+})
+socket.on("renameChannel", (props) => {
+  store.dispatch(actionsChannels.renameChannel(props))
+})
+socket.on("removeChannel", (props) => {
+  store.dispatch(actionsChannels.removeChannel(props))
+})
+socket.on("newMessage", (message) => {
+  store.dispatch(actionsMessages.addMessage(message))
+})
 
 const UseOutlet = () => {
   const auth = useAuth()

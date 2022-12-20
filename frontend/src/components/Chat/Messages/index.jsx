@@ -1,17 +1,15 @@
 import { Box, OutlinedInput, Button, InputAdornment } from "@mui/material"
 import { Formik } from "formik"
-import { useSelector, useDispatch } from "react-redux"
+import { useSelector } from "react-redux"
 import { useTranslation } from "react-i18next"
 import SendIcon from "@mui/icons-material/Send"
-import { useEffect, useState, useContext, useCallback, useRef } from "react"
+import { useEffect, useState, useContext, useRef } from "react"
 import filter from "leo-profanity"
 import { appUserSelector } from "store/userSlice"
 import { SocketContext } from "context/socketContext"
-import { actions as actionsMessages } from "store/messageSlice"
 import styled from "../styled"
 
 const Messages = ({ currentChannel, messages }) => {
-  const dispatch = useDispatch()
   const socket = useContext(SocketContext)
   const { t } = useTranslation()
   const { currentUser } = useSelector(appUserSelector)
@@ -31,22 +29,6 @@ const Messages = ({ currentChannel, messages }) => {
       inputRef.current.focus()
     }
   }, [currentChannel])
-
-  const handleUpdateChat = useCallback(
-    (message) => {
-      setChanelMessages([...channelMessages, message])
-      dispatch(actionsMessages.addMessage(message))
-    },
-    [channelMessages]
-  )
-
-  useEffect(() => {
-    socket.on("newMessage", handleUpdateChat)
-
-    return () => {
-      socket.off("newMessage", handleUpdateChat)
-    }
-  }, [handleUpdateChat])
 
   return (
     <Box style={styled.messageContainer}>

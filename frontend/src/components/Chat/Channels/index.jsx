@@ -60,7 +60,7 @@ const ItemChannel = ({ item, activeChannelId, callbackChannel }) => {
   )
 }
 
-const Channels = ({ channels, activeChannelId, setActiveChannelId }) => {
+const Channels = ({ channels, activeChannelId }) => {
   const socket = useContext(SocketContext)
   const { t } = useTranslation()
   const [openModal, setOpenModal] = useState(false)
@@ -157,7 +157,6 @@ const Channels = ({ channels, activeChannelId, setActiveChannelId }) => {
             <ItemChannel
               item={item}
               key={item.id}
-              setActiveChannelId={setActiveChannelId}
               activeChannelId={activeChannelId}
               callbackChannel={callbackChannel}
             />
