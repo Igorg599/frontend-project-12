@@ -1,6 +1,6 @@
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { useDispatch } from "react-redux"
-import { Box } from "@mui/material"
+import { Box, CircularProgress } from "@mui/material"
 import axios from "axios"
 import useLocalStorage from "hooks/useLokalStorage"
 import { actions as actionsChannels } from "store/channelSlice"
@@ -13,6 +13,7 @@ const Home = () => {
   const dispatch = useDispatch()
   const [token] = useLocalStorage("token")
   const [userName] = useLocalStorage("userName")
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     if (userName) {
@@ -26,6 +27,7 @@ const Home = () => {
       .then((response) => {
         dispatch(actionsChannels.initChannels(response.data.channels))
         dispatch(actionsMessages.initMessages(response.data.messages))
+        setLoading(false)
       })
       .catch((err) => {
         throw err
@@ -33,8 +35,22 @@ const Home = () => {
   }, [])
 
   return (
-    <Box className="container">
-      <Chat />
+    <Box>
+      {loading ? (
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            marginTop: "calc(50vh - 50px)",
+          }}
+        >
+          <CircularProgress />
+        </Box>
+      ) : (
+        <Box className="container">
+          <Chat />
+        </Box>
+      )}
     </Box>
   )
 }
