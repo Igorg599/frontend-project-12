@@ -70,7 +70,6 @@ const Login = () => {
             value={values.username}
             className="login-input"
             variant="outlined"
-            placeholder={t("nick")}
             label={t("nick")}
             error={authFailed}
             autoFocus
@@ -86,7 +85,6 @@ const Login = () => {
             value={values.password}
             style={{ marginTop: 30 }}
             variant="outlined"
-            placeholder={t("password")}
             label={t("password")}
             error={authFailed}
           />
