@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit"
 
 const initialState = {
   channels: [],
+  activeChannelId: 1,
 }
 
 export const { reducer, actions } = createSlice({
@@ -14,6 +15,7 @@ export const { reducer, actions } = createSlice({
     },
     addChannel: (state, { payload }) => {
       state.channels.push(payload)
+      state.activeChannelId = payload.id
     },
     renameChannel: (state, { payload: { id, name } }) => {
       const channelId = Number(id)
@@ -29,6 +31,10 @@ export const { reducer, actions } = createSlice({
     removeChannel: (state, { payload: { id } }) => {
       const channelId = Number(id)
       state.channels = state.channels.filter((c) => c.id !== channelId)
+      state.activeChannelId = 1
+    },
+    changeActiveChannelId: (state, { payload }) => {
+      state.activeChannelId = payload
     },
   },
 })

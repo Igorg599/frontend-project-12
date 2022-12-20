@@ -1,19 +1,17 @@
 import { Box, Button } from "@mui/material"
 import { useState, useCallback, useContext } from "react"
+import { useDispatch } from "react-redux"
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline"
 import { useTranslation } from "react-i18next"
 import { SocketContext } from "context/socketContext"
+import { actions as actionsChannels } from "store/channelSlice"
 import ModalChannel from "components/ModalChannel"
 import Popup from "components/Popup"
 import styled from "../styled"
 
-const ItemChannel = ({
-  item,
-  activeChannelId,
-  setActiveChannelId,
-  callbackChannel,
-}) => {
+const ItemChannel = ({ item, activeChannelId, callbackChannel }) => {
   const { t } = useTranslation()
+  const dispatch = useDispatch()
   const [anchorEl, setAnchorEl] = useState(null)
 
   const handleClick = useCallback((event) => {
@@ -33,7 +31,7 @@ const ItemChannel = ({
     >
       <Button
         type="button"
-        onClick={() => setActiveChannelId(item.id)}
+        onClick={() => dispatch(actionsChannels.changeActiveChannelId(item.id))}
         style={{
           ...styled.button,
           color: activeChannelId === item.id ? "#fff" : "#000",

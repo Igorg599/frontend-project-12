@@ -1,5 +1,5 @@
 import { Box } from "@mui/material"
-import { useMemo, useState, useContext, useCallback, useEffect } from "react"
+import { useMemo, useContext, useCallback, useEffect } from "react"
 import { useSelector, useDispatch } from "react-redux"
 import {
   appChannelsSelector,
@@ -13,9 +13,8 @@ import Messages from "./Messages"
 const Chat = () => {
   const socket = useContext(SocketContext)
   const dispatch = useDispatch()
-  const { channels } = useSelector(appChannelsSelector)
+  const { channels, activeChannelId } = useSelector(appChannelsSelector)
   const { messages } = useSelector(appMessagesSelector)
-  const [activeChannelId, setActiveChannelId] = useState(1)
 
   const activeChannel = useMemo(() => {
     if (channels.length > 0) {
@@ -26,7 +25,6 @@ const Chat = () => {
 
   const handleAddNewChannel = useCallback((channel) => {
     dispatch(actionsChannels.addChannel(channel))
-    setActiveChannelId(channel.id)
   }, [])
 
   const handleRenameChannel = useCallback((props) => {
@@ -35,7 +33,6 @@ const Chat = () => {
 
   const handleRemoveChannel = useCallback((props) => {
     dispatch(actionsChannels.removeChannel(props))
-    setActiveChannelId(1)
   }, [])
 
   useEffect(() => {
@@ -52,11 +49,7 @@ const Chat = () => {
 
   return (
     <Box style={{ display: "flex", height: "100%" }}>
-      <Channels
-        channels={channels}
-        activeChannelId={activeChannelId}
-        setActiveChannelId={setActiveChannelId}
-      />
+      <Channels channels={channels} activeChannelId={activeChannelId} />
       <Messages messages={messages} currentChannel={activeChannel} />
     </Box>
   )
