@@ -8,7 +8,7 @@ export default {
     },
     enterMessage: "Введите сообщение...",
     errors: {
-      verification: "Неверный логин или пароль",
+      verification: "Неверные имя пользователя или пароль",
       shortName: "Слишком короткий логин",
       shortPassword: "Слишком короткий пароль",
       requiredName: "Обязательное поле",
