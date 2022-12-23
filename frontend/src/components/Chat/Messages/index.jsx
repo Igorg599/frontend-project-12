@@ -88,6 +88,9 @@ const Messages = ({ currentChannel, messages }) => {
                 onBlur={handleBlur}
                 size="small"
                 inputRef={inputRef}
+                inputProps={{
+                  "aria-label": t("newMessage"),
+                }}
                 endAdornment={
                   <InputAdornment position="end">
                     <Button

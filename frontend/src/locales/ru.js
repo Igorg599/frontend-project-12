@@ -7,6 +7,7 @@ export default {
       key_many: "{{count}} сообщений",
     },
     enterMessage: "Введите сообщение...",
+    newMessage: "Новое сообщение",
     errors: {
       verification: "Неверные имя пользователя или пароль",
       shortName: "Слишком короткий логин",
