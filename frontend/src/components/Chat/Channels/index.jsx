@@ -143,7 +143,7 @@ const Channels = ({ channels, activeChannelId }) => {
             style={{ cursor: "pointer" }}
             onClick={handleOpen}
           />
-          <Box style={{ display: "none" }}>+</Box>
+          <span style={styled.plus}>+</span>
         </Button>
       </Box>
       <ModalChannel
