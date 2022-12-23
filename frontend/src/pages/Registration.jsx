@@ -28,7 +28,7 @@ const Registration = () => {
       .min(6, t("errors.minPassword")),
     confirmPassword: Yup.string()
       .required(t("errors.requiredPassword"))
-      .min(6, t("errors.minPassword")),
+      .oneOf([Yup.ref("password"), null], t("errors.matchPasswords")),
   })
 
   return (
@@ -40,11 +40,6 @@ const Registration = () => {
 
         setAuthFailed(false)
         action.setErrors({})
-
-        if (password !== confirmPassword) {
-          action.setErrors({ confirmPassword: t("errors.matchPasswords") })
-          return
-        }
 
         try {
           const res = await axios.post(routes.registerPath(), {
