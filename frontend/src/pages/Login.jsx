@@ -63,6 +63,7 @@ const Login = () => {
       }) => (
         <form onSubmit={handleSubmit} className="login-form">
           <TextField
+            id="login-username"
             type="text"
             name="username"
             onChange={handleChange}
@@ -78,6 +79,7 @@ const Login = () => {
             {errors.username && touched.username && errors.username}
           </Box>
           <TextField
+            id="login-password"
             type="password"
             name="password"
             onChange={handleChange}

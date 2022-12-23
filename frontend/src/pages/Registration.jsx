@@ -78,6 +78,7 @@ const Registration = () => {
       }) => (
         <form onSubmit={handleSubmit} className="login-form">
           <TextField
+            id="registration-username"
             type="text"
             name="username"
             onChange={handleChange}
@@ -92,6 +93,7 @@ const Registration = () => {
             {errors.username && touched.username && errors.username}
           </Box>
           <TextField
+            id="registration-password"
             type="password"
             name="password"
             onChange={handleChange}
@@ -105,6 +107,7 @@ const Registration = () => {
             {errors.password && touched.password && errors.password}
           </Box>
           <TextField
+            id="registration-confirmPassword"
             type="password"
             name="confirmPassword"
             onChange={handleChange}
