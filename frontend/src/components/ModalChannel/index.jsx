@@ -59,9 +59,6 @@ const ContentModal = ({ handleClose, type, callback, itemChannel, notify }) => {
           >
             {({ values, handleChange, handleBlur, handleSubmit, errors }) => (
               <form style={{ width: "100%" }} onSubmit={handleSubmit}>
-                <label style={{ display: "none" }} htmlFor="name">
-                  {t("modal.name")}
-                </label>
                 <TextField
                   id="name"
                   style={styled.input}
@@ -76,7 +73,7 @@ const ContentModal = ({ handleClose, type, callback, itemChannel, notify }) => {
                   autoFocus
                 />
                 <label style={styled.label} htmlFor="name">
-                  Имя канала
+                  {t("modal.name")}
                 </label>
                 {errors.name && <Box style={styled.error}>{errors.name}</Box>}
                 <Box style={styled.buttons}>
