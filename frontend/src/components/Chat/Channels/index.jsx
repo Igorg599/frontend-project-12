@@ -46,7 +46,7 @@ const ItemChannel = ({ item, activeChannelId, callbackChannel }) => {
             type="button"
             onClick={handleClick}
           >
-            <span style={{ display: "none" }}>{t("channelManagement")}</span>▼
+            <span style={styled.management}>{t("channelManagement")}</span>▼
           </Button>
           <Popup
             anchorEl={anchorEl}
