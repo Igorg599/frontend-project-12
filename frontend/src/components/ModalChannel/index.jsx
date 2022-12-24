@@ -75,6 +75,9 @@ const ContentModal = ({ handleClose, type, callback, itemChannel, notify }) => {
                   error={!!errors.name}
                   autoFocus
                 />
+                <label style={styled.label} htmlFor="name">
+                  Имя канала
+                </label>
                 {errors.name && <Box style={styled.error}>{errors.name}</Box>}
                 <Box style={styled.buttons}>
                   <Button
