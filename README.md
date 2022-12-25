@@ -5,7 +5,7 @@
 
 # Hexlet Chat
 
-## Установка
+## Install
 
 ```sh
 make install
