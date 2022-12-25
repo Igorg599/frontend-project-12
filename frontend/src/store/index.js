@@ -1,7 +1,7 @@
-import { configureStore } from "@reduxjs/toolkit"
-import channelSlice from "./channelSlice"
-import messageSlice from "./messageSlice"
-import userSlice from "./userSlice"
+import { configureStore } from '@reduxjs/toolkit';
+import channelSlice from './channelSlice';
+import messageSlice from './messageSlice';
+import userSlice from './userSlice';
 
 export default configureStore({
   reducer: {
@@ -9,4 +9,4 @@ export default configureStore({
     messages: messageSlice,
     user: userSlice,
   },
-})
+});

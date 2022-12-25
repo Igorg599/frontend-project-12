@@ -40,18 +40,3 @@ rules:
     [2, { "namedComponents": "arrow-function" }]
   testing-library/no-debug: 0
   react/jsx-filename-extension: [1, { "extensions": [".js", ".jsx"] }]
-  semi: 0
-  quotes: 0
-  comma-dangle: 0
-  react-hooks/exhaustive-deps: 0
-  no-unused-vars: 0
-  react/jsx-one-expression-per-line: 0
-  object-curly-newline: 0
-  react/jsx-wrap-multilines: 0
-  operator-linebreak: 0
-  import/order: 0
-  arrow-body-style: 0
-  jsx-a11y/label-has-associated-control:
-    ["error", { "required": { "some": ["nesting", "id"] } }]
-  jsx-a11y/label-has-for:
-    ["error", { "required": { "some": ["nesting", "id"] } }]

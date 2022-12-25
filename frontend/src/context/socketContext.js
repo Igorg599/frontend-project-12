@@ -1,5 +1,5 @@
-import { io } from "socket.io-client"
-import { createContext } from "react"
+import { io } from 'socket.io-client';
+import { createContext } from 'react';
 
-export const socket = io()
-export const SocketContext = createContext()
+export const socket = io();
+export const SocketContext = createContext();
