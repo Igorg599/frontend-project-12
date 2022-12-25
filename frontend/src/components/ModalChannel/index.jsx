@@ -123,6 +123,7 @@ const ContentModal = ({ handleClose, type, callback, itemChannel }) => {
               style={{ marginLeft: 10 }}
               onClick={handleDeleteChannel}
               disabled={disabledButton}
+              className="btn-danger"
             >
               {t("delete")}
             </Button>
