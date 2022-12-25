@@ -10,6 +10,7 @@ import { I18nextProvider } from "react-i18next"
 import { Provider as RollbarProvider, ErrorBoundary } from "@rollbar/react"
 import i18n from "i18n"
 import filterLeo from "leo-profanity"
+import { ToastContainer } from "react-toastify"
 import useAuth from "hooks/useAuth"
 import { Home, Login, NotFound, Registration } from "pages"
 import store from "store"
@@ -64,6 +65,7 @@ const App = () => {
                     <Route path="*" element={<NotFound />} />
                   </Routes>
                 </BrowserRouter>
+                <ToastContainer />
               </AuthProvider>
             </SocketContext.Provider>
           </I18nextProvider>

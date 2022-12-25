@@ -1,14 +1,16 @@
 import { Box, Typography, Modal, TextField, Button } from "@mui/material"
 import { useCallback, useState } from "react"
 import { useTranslation } from "react-i18next"
-import { ToastContainer, toast } from "react-toastify"
+import { toast } from "react-toastify"
 import { Formik } from "formik"
 import CloseIcon from "@mui/icons-material/Close"
 import styled from "./styled"
 
-const ContentModal = ({ handleClose, type, callback, itemChannel, notify }) => {
+const ContentModal = ({ handleClose, type, callback, itemChannel }) => {
   const { t } = useTranslation()
   const [disabledButton, setDisabledButton] = useState(false)
+
+  const notify = useCallback((message) => toast.success(message), [])
 
   const handleDeleteChannel = useCallback(() => {
     setDisabledButton(true)
@@ -134,30 +136,22 @@ const ContentModal = ({ handleClose, type, callback, itemChannel, notify }) => {
   }
 }
 
-const ModalChannel = ({ open, handleClose, type, callback, itemChannel }) => {
-  const notify = useCallback((message) => toast.success(message), [])
-
-  return (
-    <>
-      <ToastContainer />
-      <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box style={styled.container}>
-          <ContentModal
-            type={type}
-            handleClose={handleClose}
-            callback={callback}
-            itemChannel={itemChannel}
-            notify={notify}
-          />
-        </Box>
-      </Modal>
-    </>
-  )
-}
+const ModalChannel = ({ open, handleClose, type, callback, itemChannel }) => (
+  <Modal
+    open={open}
+    onClose={handleClose}
+    aria-labelledby="modal-modal-title"
+    aria-describedby="modal-modal-description"
+  >
+    <Box style={styled.container}>
+      <ContentModal
+        type={type}
+        handleClose={handleClose}
+        callback={callback}
+        itemChannel={itemChannel}
+      />
+    </Box>
+  </Modal>
+)
 
 export default ModalChannel
