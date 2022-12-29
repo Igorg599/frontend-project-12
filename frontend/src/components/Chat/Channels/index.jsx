@@ -1,32 +1,32 @@
-import { Box, Button } from "@mui/material"
-import { useState, useCallback, useContext } from "react"
-import { useDispatch } from "react-redux"
-import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline"
-import { useTranslation } from "react-i18next"
-import { SocketContext } from "context/socketContext"
-import { actions as actionsChannels } from "store/channelSlice"
-import ModalChannel from "components/ModalChannel"
-import Popup from "components/Popup"
-import styled from "../styled"
+import { Box, Button } from '@mui/material';
+import { useState, useCallback, useContext } from 'react';
+import { useDispatch } from 'react-redux';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import { useTranslation } from 'react-i18next';
+import { SocketContext } from 'context/socketContext';
+import { actions as actionsChannels } from 'store/channelSlice';
+import ModalChannel from 'components/ModalChannel';
+import Popup from 'components/Popup';
+import styled from '../styled';
 
 const ItemChannel = ({ item, activeChannelId, callbackChannel }) => {
-  const { t } = useTranslation()
-  const dispatch = useDispatch()
-  const [anchorEl, setAnchorEl] = useState(null)
+  const { t } = useTranslation();
+  const dispatch = useDispatch();
+  const [anchorEl, setAnchorEl] = useState(null);
 
   const handleClick = useCallback((event) => {
-    setAnchorEl(event.currentTarget)
-  }, [])
+    setAnchorEl(event.currentTarget);
+  }, []);
 
   const handleClose = useCallback(() => {
-    setAnchorEl(null)
-  }, [])
+    setAnchorEl(null);
+  }, []);
 
   return (
     <li
       style={{
         ...styled.listItem,
-        backgroundColor: activeChannelId === item.id ? "#5c636a" : "#FFFAFA",
+        backgroundColor: activeChannelId === item.id ? '#5c636a' : '#FFFAFA',
       }}
     >
       <Button
@@ -34,10 +34,12 @@ const ItemChannel = ({ item, activeChannelId, callbackChannel }) => {
         onClick={() => dispatch(actionsChannels.changeActiveChannelId(item.id))}
         style={{
           ...styled.button,
-          color: activeChannelId === item.id ? "#fff" : "#000",
+          color: activeChannelId === item.id ? '#fff' : '#000',
         }}
       >
-        # {item.name}
+        #
+        {' '}
+        {item.name}
       </Button>
       {item.removable && (
         <>
@@ -46,7 +48,8 @@ const ItemChannel = ({ item, activeChannelId, callbackChannel }) => {
             type="button"
             onClick={handleClick}
           >
-            <span style={styled.management}>{t("channelManagement")}</span>▼
+            <span style={styled.management}>{t('channelManagement')}</span>
+            ▼
           </Button>
           <Popup
             anchorEl={anchorEl}
@@ -57,90 +60,90 @@ const ItemChannel = ({ item, activeChannelId, callbackChannel }) => {
         </>
       )}
     </li>
-  )
-}
+  );
+};
 
 const Channels = ({ channels, activeChannelId }) => {
-  const socket = useContext(SocketContext)
-  const { t } = useTranslation()
-  const [openModal, setOpenModal] = useState(false)
+  const socket = useContext(SocketContext);
+  const { t } = useTranslation();
+  const [openModal, setOpenModal] = useState(false);
 
-  const handleOpen = useCallback(() => setOpenModal(true), [])
-  const handleClose = useCallback(() => setOpenModal(false), [])
+  const handleOpen = useCallback(() => setOpenModal(true), []);
+  const handleClose = useCallback(() => setOpenModal(false), []);
 
   const callbackChannel = useCallback(
     (props) => {
-      const { channelName, id } = props
+      const { channelName, id } = props;
 
       return new Promise((resolve, reject) => {
         if (channelName) {
           if (channelName.length < 3 || channelName.length > 20) {
-            reject(new Error(t("errors.minMaxName")))
-            return
+            reject(new Error(t('errors.minMaxName')));
+            return;
           }
           if (channels.find((item) => item.name === channelName)) {
-            reject(new Error(t("errors.uniqueChannel")))
-            return
+            reject(new Error(t('errors.uniqueChannel')));
+            return;
           }
         }
         try {
           if (!id && channelName) {
             socket.emit(
-              "newChannel",
+              'newChannel',
               {
                 name: channelName,
               },
               (res) => {
-                if (res.status === "ok") {
-                  resolve()
+                if (res.status === 'ok') {
+                  resolve();
                 }
-              }
-            )
+              },
+            );
           } else if (id && channelName) {
             socket.emit(
-              "renameChannel",
+              'renameChannel',
               {
                 name: channelName,
                 id,
               },
               (res) => {
-                if (res.status === "ok") {
-                  resolve()
+                if (res.status === 'ok') {
+                  resolve();
                 }
-              }
-            )
+              },
+            );
           } else {
             socket.emit(
-              "removeChannel",
+              'removeChannel',
               {
                 id,
               },
               (res) => {
-                if (res.status === "ok") {
-                  resolve()
+                if (res.status === 'ok') {
+                  resolve();
                 }
-              }
-            )
+              },
+            );
           }
         } catch (err) {
-          reject(err)
+          reject(err);
         }
-      })
+      });
     },
-    [channels]
-  )
+    [channels, socket, t],
+  );
 
   return (
     <Box style={styled.channels}>
       <Box style={styled.title}>
-        <Box>{t("channels")}</Box>
+        <Box>{t('channels')}</Box>
         <Button
           style={{ maxWidth: 26, maxHeight: 26, minWidth: 26 }}
           variant="outlined"
         >
           <AddCircleOutlineIcon
             color="primary"
-            style={{ cursor: "pointer" }}
+            style={{ cursor: 'pointer' }}
             onClick={handleOpen}
           />
           <span style={styled.plus}>+</span>
@@ -165,7 +168,7 @@ const Channels = ({ channels, activeChannelId }) => {
         </ul>
       )}
     </Box>
-  )
-}
+  );
+};
 
-export default Channels
+export default Channels;

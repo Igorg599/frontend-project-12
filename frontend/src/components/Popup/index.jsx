@@ -1,23 +1,25 @@
-import Popover from "@mui/material/Popover"
-import { Button, Box } from "@mui/material"
-import { useState, useCallback } from "react"
-import { useTranslation } from "react-i18next"
-import ModalChannel from "components/ModalChannel"
-import styled from "./styled"
+import Popover from '@mui/material/Popover';
+import { Button, Box } from '@mui/material';
+import { useState, useCallback } from 'react';
+import { useTranslation } from 'react-i18next';
+import ModalChannel from 'components/ModalChannel';
+import styled from './styled';
 
-const Popup = ({ anchorEl, handleClosePopup, item, callbackChannel }) => {
-  const { t } = useTranslation()
-  const [openModalUpdate, setOpenModalUpdate] = useState(false)
-  const [openModalDelete, setOpenModalDelete] = useState(false)
+const Popup = ({
+  anchorEl, handleClosePopup, item, callbackChannel,
+}) => {
+  const { t } = useTranslation();
+  const [openModalUpdate, setOpenModalUpdate] = useState(false);
+  const [openModalDelete, setOpenModalDelete] = useState(false);
 
-  const handleOpenUpdate = useCallback(() => setOpenModalUpdate(true), [])
-  const handleCloseUpdate = useCallback(() => setOpenModalUpdate(false), [])
+  const handleOpenUpdate = useCallback(() => setOpenModalUpdate(true), []);
+  const handleCloseUpdate = useCallback(() => setOpenModalUpdate(false), []);
 
-  const handleOpenDelete = useCallback(() => setOpenModalDelete(true), [])
-  const handleCloseDelete = useCallback(() => setOpenModalDelete(false), [])
+  const handleOpenDelete = useCallback(() => setOpenModalDelete(true), []);
+  const handleCloseDelete = useCallback(() => setOpenModalDelete(false), []);
 
-  const open = Boolean(anchorEl)
-  const id = open ? "simple-popover" : undefined
+  const open = Boolean(anchorEl);
+  const id = open ? 'simple-popover' : undefined;
 
   return (
     <>
@@ -27,8 +29,8 @@ const Popup = ({ anchorEl, handleClosePopup, item, callbackChannel }) => {
         anchorEl={anchorEl}
         onClose={handleClosePopup}
         anchorOrigin={{
-          vertical: "bottom",
-          horizontal: "left",
+          vertical: 'bottom',
+          horizontal: 'left',
         }}
       >
         <Box style={styled.containerPopup}>
@@ -36,21 +38,21 @@ const Popup = ({ anchorEl, handleClosePopup, item, callbackChannel }) => {
             style={styled.button}
             type="button"
             onClick={() => {
-              handleOpenDelete()
-              handleClosePopup()
+              handleOpenDelete();
+              handleClosePopup();
             }}
           >
-            {t("delete")}
+            {t('delete')}
           </Button>
           <Button
             style={styled.button}
             type="button"
             onClick={() => {
-              handleOpenUpdate()
-              handleClosePopup()
+              handleOpenUpdate();
+              handleClosePopup();
             }}
           >
-            {t("rename")}
+            {t('rename')}
           </Button>
         </Box>
       </Popover>
@@ -69,7 +71,7 @@ const Popup = ({ anchorEl, handleClosePopup, item, callbackChannel }) => {
         itemChannel={item}
       />
     </>
-  )
-}
+  );
+};
 
-export default Popup
+export default Popup;
