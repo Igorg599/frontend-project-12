@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import { Box, CircularProgress } from '@mui/material';
 import axios from 'axios';
 import useLocalStorage from 'hooks/useLokalStorage';
+import useAuth from 'hooks/useAuth';
 import { actions as actionsChannels } from 'store/channelSlice';
 import { actions as actionsMessages } from 'store/messageSlice';
 import { actions as actionsUser } from 'store/userSlice';
@@ -11,6 +12,7 @@ import Chat from 'components/Chat';
 
 const Home = () => {
   const dispatch = useDispatch();
+  const auth = useAuth();
   const [token] = useLocalStorage('token');
   const [userName] = useLocalStorage('userName');
   const [loading, setLoading] = useState(true);
@@ -30,8 +32,9 @@ const Home = () => {
         dispatch(actionsMessages.initMessages(response.data.messages));
         setLoading(false);
       })
-      .catch((err) => {
-        throw err;
+      .catch(() => {
+        auth.logOut();
+        dispatch(actionsUser.signOff());
       });
   }, []);
 
