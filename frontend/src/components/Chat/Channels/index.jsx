@@ -1,17 +1,16 @@
 import { Box, Button } from '@mui/material';
 import { useState, useCallback, useContext } from 'react';
-import { useDispatch } from 'react-redux';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { useTranslation } from 'react-i18next';
 import { SocketContext } from 'context/socketContext';
-import { actions as actionsChannels } from 'store/channelSlice';
 import ModalChannel from 'components/ModalChannel';
 import Popup from 'components/Popup';
 import styled from '../styled';
 
-const ItemChannel = ({ item, activeChannelId, callbackChannel }) => {
+const ItemChannel = ({
+  item, activeChannelId, callbackChannel, setActiveChannelId,
+}) => {
   const { t } = useTranslation();
-  const dispatch = useDispatch();
   const [anchorEl, setAnchorEl] = useState(null);
 
   const handleClick = useCallback((event) => {
@@ -31,7 +30,7 @@ const ItemChannel = ({ item, activeChannelId, callbackChannel }) => {
     >
       <Button
         type="button"
-        onClick={() => dispatch(actionsChannels.changeActiveChannelId(item.id))}
+        onClick={() => setActiveChannelId(item.id)}
         style={{
           ...styled.button,
           color: activeChannelId === item.id ? '#fff' : '#000',
@@ -63,7 +62,7 @@ const ItemChannel = ({ item, activeChannelId, callbackChannel }) => {
   );
 };
 
-const Channels = ({ channels, activeChannelId }) => {
+const Channels = ({ channels, activeChannelId, setActiveChannelId }) => {
   const socket = useContext(SocketContext);
   const { t } = useTranslation();
   const [openModal, setOpenModal] = useState(false);
@@ -95,6 +94,7 @@ const Channels = ({ channels, activeChannelId }) => {
               },
               (res) => {
                 if (res.status === 'ok') {
+                  setActiveChannelId(res.data.id);
                   resolve();
                 }
               },
@@ -120,6 +120,9 @@ const Channels = ({ channels, activeChannelId }) => {
               },
               (res) => {
                 if (res.status === 'ok') {
+                  if (activeChannelId === id) {
+                    setActiveChannelId(1);
+                  }
                   resolve();
                 }
               },
@@ -130,7 +133,7 @@ const Channels = ({ channels, activeChannelId }) => {
         }
       });
     },
-    [channels, socket, t],
+    [channels, socket, t, setActiveChannelId, activeChannelId],
   );
 
   return (
@@ -163,6 +166,7 @@ const Channels = ({ channels, activeChannelId }) => {
               key={item.id}
               activeChannelId={activeChannelId}
               callbackChannel={callbackChannel}
+              setActiveChannelId={setActiveChannelId}
             />
           ))}
         </ul>
