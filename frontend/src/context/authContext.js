@@ -7,9 +7,16 @@ const AuthContext = createContext({});
 
 export const AuthProvider = ({ children }) => {
   const [storageUserValue] = useLocalStorage('token');
+  const [userName] = useLocalStorage('userName');
   const [loggedIn, setLoggedIn] = useState(!!storageUserValue);
+  const [currentUser, setCurrentUser] = useState(userName);
+  const [token, setToken] = useState(storageUserValue);
 
-  const logIn = useCallback(() => setLoggedIn(true), []);
+  const logIn = useCallback((tokenNew) => {
+    setToken(tokenNew);
+    setLoggedIn(true);
+  }, []);
+
   const logOut = useCallback(() => {
     localStorage.removeItem('token');
     localStorage.removeItem('userName');
@@ -17,8 +24,10 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const valueProvider = useMemo(
-    () => ({ loggedIn, logIn, logOut }),
-    [logIn, logOut, loggedIn],
+    () => ({
+      loggedIn, logIn, logOut, currentUser, setCurrentUser, token,
+    }),
+    [logIn, logOut, loggedIn, currentUser, setCurrentUser, token],
   );
 
   return (

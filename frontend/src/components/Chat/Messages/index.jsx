@@ -2,21 +2,20 @@ import {
   Box, OutlinedInput, Button, InputAdornment,
 } from '@mui/material';
 import { Formik } from 'formik';
-import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import SendIcon from '@mui/icons-material/Send';
 import {
   useEffect, useState, useContext, useRef,
 } from 'react';
 import filter from 'leo-profanity';
-import { appUserSelector } from 'store/userSlice';
 import { SocketContext } from 'context/socketContext';
+import AuthContext from 'context/authContext';
 import styled from '../styled';
 
 const Messages = ({ currentChannel, messages }) => {
   const socket = useContext(SocketContext);
+  const { currentUser } = useContext(AuthContext);
   const { t } = useTranslation();
-  const { currentUser } = useSelector(appUserSelector);
   const [channelMessages, setChanelMessages] = useState([]);
   const inputRef = useRef(null);
   const messagesEndRef = useRef(null);

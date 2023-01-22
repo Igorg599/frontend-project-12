@@ -1,18 +1,18 @@
 import { Button } from '@material-ui/core';
+import { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useDispatch } from 'react-redux';
-import { actions as actionsUser } from 'store/userSlice';
+import AuthContext from 'context/authContext';
 import useAuth from 'hooks/useAuth';
 import styled from './styled';
 
 const SideBar = () => {
-  const dispatch = useDispatch();
+  const { setCurrentUser } = useContext(AuthContext);
   const auth = useAuth();
   const { t } = useTranslation();
 
   const goOutApp = () => {
     auth.logOut();
-    dispatch(actionsUser.signOff());
+    setCurrentUser(null);
   };
 
   return (

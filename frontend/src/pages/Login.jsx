@@ -1,10 +1,11 @@
 import { Formik } from 'formik';
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import { TextField, Button, Box } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
+import AuthContext from 'context/authContext';
 import routes from 'utils/routes';
 import useAuth from 'hooks/useAuth';
 import useLocalStorage from 'hooks/useLokalStorage';
@@ -13,6 +14,7 @@ const Login = () => {
   const auth = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
+  const { setCurrentUser } = useContext(AuthContext);
   const { t } = useTranslation();
   const [authFailed, setAuthFailed] = useState(false);
   const [, setValueToken] = useLocalStorage('token');
@@ -39,7 +41,8 @@ const Login = () => {
           setValueToken(res.data.token);
           setValueUsername(values.username);
           setTimeout(() => {
-            auth.logIn();
+            setCurrentUser(values.username);
+            auth.logIn(res.data.token);
             const { from } = location.state || { from: { pathname: '/' } };
             navigate(from);
           });

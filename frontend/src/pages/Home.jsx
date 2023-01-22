@@ -1,28 +1,22 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { useDispatch } from 'react-redux';
 import { Box, CircularProgress } from '@mui/material';
 import axios from 'axios';
-import useLocalStorage from 'hooks/useLokalStorage';
 import useAuth from 'hooks/useAuth';
 import { actions as actionsChannels } from 'store/channelSlice';
 import { actions as actionsMessages } from 'store/messageSlice';
-import { actions as actionsUser } from 'store/userSlice';
+import AuthContext from 'context/authContext';
 import routes from 'utils/routes';
 import Chat from 'components/Chat';
 
 const Home = () => {
   const dispatch = useDispatch();
+  const { token, setCurrentUser } = useContext(AuthContext);
   const auth = useAuth();
-  const [token] = useLocalStorage('token');
-  const [userName] = useLocalStorage('userName');
   const [loading, setLoading] = useState(true);
 
   /* eslint-disable react-hooks/exhaustive-deps */
   useEffect(() => {
-    if (userName) {
-      dispatch(actionsUser.initUser(userName));
-    }
-
     axios
       .get(routes.getData(), {
         headers: { Authorization: `Bearer ${token}` },
@@ -34,7 +28,7 @@ const Home = () => {
       })
       .catch(() => {
         auth.logOut();
-        dispatch(actionsUser.signOff());
+        setCurrentUser(null);
       });
   }, []);
 
